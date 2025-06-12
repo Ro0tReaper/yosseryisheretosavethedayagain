@@ -1,0 +1,107 @@
+<h2 class="text-2xl font-bold text-cyan-400 mb-4">Cisco Switch Boot Sequence</h2>
+<ul class="list-disc pl-6 text-gray-200 mb-6">
+  <li><strong>Step 1:</strong> Runs POST (ROM) - Checks CPU, DRAM, and flash file system.</li>
+  <li><strong>Step 2:</strong> Loads boot loader (ROM) - Runs after POST completes.</li>
+  <li><strong>Step 3:</strong> Boot loader initializes CPU registers (memory mapping, size, speed).</li>
+  <li><strong>Step 4:</strong> Boot loader sets up flash file system.</li>
+  <li><strong>Step 5:</strong> Boot loader loads default IOS into memory and hands control to IOS.</li>
+</ul>
+
+<h2 class="text-2xl font-bold text-cyan-400 mb-4">The <code class="bg-black text-white px-2 py-1 rounded">boot system</code> Command</h2>
+<ul class="list-disc pl-6 text-gray-200 mb-6">
+  <li><strong>Auto-boot process:</strong> Uses the <code>BOOT</code> environment variable. If unset, loads the first executable file found.</li>
+  <li><strong>Startup-config:</strong> IOS initializes interfaces using <code>config.text</code> (in flash).</li>
+  <li><strong>Setting boot file:</strong> Use <code class="bg-black text-white px-2 py-1 rounded">boot system flash:/path/to/file.bin</code> and verify with <code>show boot</code>.</li>
+</ul>
+
+<h2 class="text-2xl font-bold text-cyan-400 mb-4">Switch LED Indicators</h2>
+<ul class="list-disc pl-6 text-gray-200 mb-6">
+  <li><strong>SYSTEM (SYST):</strong> Power and system status.</li>
+  <li><strong>RPS:</strong> Redundant Power Supply status.</li>
+  <li><strong>STAT:</strong> Port status (default).</li>
+  <li><strong>DUPLX:</strong> Duplex status.</li>
+  <li><strong>SPEED:</strong> Speed mode active.</li>
+  <li><strong>PoE:</strong> Power over Ethernet status.</li>
+  <li><strong>Mode Button:</strong> Toggles between indicator modes.</li>
+</ul>
+
+<h2 class="text-2xl font-bold text-cyan-400 mb-4">Recovering from System Crash</h2>
+<ol class="list-decimal pl-6 text-gray-200 mb-6">
+  <li>Connect PC to console port.</li>
+  <li>Unplug switch power cord.</li>
+  <li>Reconnect and press Mode until SYST LED turns green.</li>
+  <li>Boot loader prompt appears.</li>
+</ol>
+
+<p class="text-gray-400 mb-2">Boot loader allows:</p>
+<ul class="list-disc pl-6 text-gray-200 mb-6">
+  <li>Format flash</li>
+  <li>Reinstall IOS</li>
+  <li>Password recovery</li>
+  <li>File management with <code>dir</code></li>
+</ul>
+
+<h2 class="text-xl font-bold text-cyan-300 mb-2">SVI Example</h2>
+<pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto mb-6">
+(config)# interface vlan 99
+(config-if)# ip address [ip] [subnet]
+(config-if)# ipv6 address [CIDR]
+(config-if)# no shutdown
+(config)# ip default-gateway [routerip]
+</pre>
+
+<h2 class="text-xl font-bold text-cyan-300 mb-2">Duplex, Speed, and MDIX</h2>
+<pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto mb-6">
+(config)# int f0/1
+(config-if)# duplex [full | half]
+(config-if)# mdix auto
+(config-if)# speed [10 | 100 | 1000]
+</pre>
+
+<h2 class="text-2xl font-bold text-cyan-400 mb-4 text-center">Common Show Commands</h2>
+<table class="w-full text-left text-sm text-gray-200 border border-cyan-800 mb-10">
+  <thead class="bg-cyan-800 text-white">
+    <tr>
+      <th class="px-4 py-2 border border-cyan-900">Task</th>
+      <th class="px-4 py-2 border border-cyan-900">Command</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-2">Interface Status</td>
+      <td class="px-4 py-2"><code>show interfaces [id]</code></td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-2">Startup Config</td>
+      <td class="px-4 py-2"><code>show startup-config</code></td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-2">Running Config</td>
+      <td class="px-4 py-2"><code>show running-config</code></td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-2">Flash Info</td>
+      <td class="px-4 py-2"><code>show flash</code></td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-2">System Info</td>
+      <td class="px-4 py-2"><code>show version</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class="text-xl font-bold text-cyan-300 mt-8 mb-2">Interface Error Types</h3>
+<ul class="list-disc pl-6 text-gray-200">
+  <li><strong>Input Errors:</strong> Total inbound packet errors.</li>
+  <li><strong>Runts:</strong> Too-small packets (&lt;64 bytes).</li>
+  <li><strong>Giants:</strong> Oversized packets (&gt;1518 bytes).</li>
+  <li><strong>CRC Errors:</strong> Mismatched checksums.</li>
+  <li><strong>Output Errors:</strong> Transmission failure errors.</li>
+  <li><strong>Collisions:</strong> Ethernet transmission overlaps.</li>
+  <li><strong>Late Collisions:</strong> Occur after 512 bits transmitted.</li>
+</ul>
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative tobe" role="alert">
+  <strong class="font-bold">Attention</strong>
+  <span class="block sm:inline">Refer to the commands table section.</span>
+ 
+</div>

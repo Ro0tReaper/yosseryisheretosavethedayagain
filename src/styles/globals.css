@@ -1,4 +1,9 @@
 @import "tailwindcss";
+/* globals.css */
+
+
+/* Apply default background and text color */
+
 
 :root {
   --background: #ffffff;

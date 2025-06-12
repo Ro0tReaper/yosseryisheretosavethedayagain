@@ -1,0 +1,181 @@
+<section class="bg-gray-900 text-white p-6 mb-10 rounded-lg shadow-lg text-center">
+  <h2 class="text-2xl font-bold text-cyan-400 mb-4">Frame Forwarding Concepts</h2>
+  <div class="max-w-2xl mx-auto text-left space-y-4">
+    <p><strong class="text-cyan-300">Ingress:</strong> <span class="ml-2 text-gray-200">Frames entering the interface</span></p>
+    <p><strong class="text-cyan-300">Egress:</strong> <span class="ml-2 text-gray-200">Frames exiting the interface</span></p>
+
+    <div class="bg-blue-800 p-4 rounded">
+      <p class="mb-2"><strong>Forwarding Behavior:</strong></p>
+      <ul class="list-disc pl-6 text-gray-200">
+        <li>The ingress interface</li>
+        <li>The destination MAC address</li>
+        <li>The switch's MAC address table</li>
+      </ul>
+    </div>
+
+    <div class="bg-blue-700 p-4 rounded text-gray-200">
+      <strong>Important:</strong> A switch will never forward traffic back out the same interface it was received on.
+    </div>
+  </div>
+</section>
+
+<section class="bg-gray-900 text-white p-6 mb-10 rounded-lg shadow-lg text-center">
+  <h2 class="text-2xl font-bold text-cyan-400 mb-4">The Switch MAC Address Table</h2>
+  <div class="max-w-2xl mx-auto text-left space-y-4">
+    <div class="bg-blue-800 p-4 rounded text-gray-200">
+      <p><strong>Forwarding Decision:</strong> Based on destination MAC → selects egress interface.</p>
+    </div>
+    <div class="bg-blue-800 p-4 rounded text-gray-200">
+      <p><strong>Learning Process:</strong> Switch must learn MACs and port mappings.</p>
+    </div>
+    <div class="bg-blue-800 p-4 rounded">
+      <p class="text-gray-200 mb-2"><strong>MAC Address Table (CAM):</strong></p>
+      <ul class="list-disc pl-6 text-gray-200">
+        <li>Records source MACs</li>
+        <li>Tracks ingress ports</li>
+        <li>Used for forwarding decisions</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="bg-gray-900 text-white p-6 mb-10 rounded-lg shadow-lg text-center">
+  <h2 class="text-2xl font-bold text-cyan-400 mb-4">Learn and Forward Method</h2>
+  <div class="max-w-2xl mx-auto text-left space-y-6">
+    <div class="bg-blue-700 p-3 rounded-t text-white font-semibold">Step 1: Learn (Source MAC)</div>
+    <div class="bg-blue-800 p-4 rounded-b">
+      <ul class="list-disc pl-6 text-gray-200">
+        <li>Adds MAC if new</li>
+        <li>Resets timeout if already exists</li>
+      </ul>
+    </div>
+
+    <div class="bg-blue-700 p-3 rounded-t text-white font-semibold">Step 2: Forward (Destination MAC)</div>
+    <div class="bg-blue-800 p-4 rounded-b">
+      <ul class="list-disc pl-6 text-gray-200">
+        <li>Forwards to known MAC port</li>
+        <li>Floods frame if destination unknown</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="bg-gray-900 text-white p-6 mb-10 rounded-lg shadow-lg text-center">
+  <h2 class="text-2xl font-bold text-cyan-400 mb-4">Switch Forwarding Methods</h2>
+  <div class="max-w-2xl mx-auto text-left space-y-4">
+    <div class="bg-blue-800 p-4 rounded text-gray-200">
+      <strong>ASIC Processing:</strong> Uses custom hardware for ultra-fast frame forwarding.
+    </div>
+
+    <div class="bg-blue-700 p-3 rounded-t text-white font-semibold">Store-and-Forward Switching</div>
+    <div class="bg-blue-800 p-4 rounded-b">
+      <ul class="list-disc pl-6 text-gray-200">
+        <li>Buffers full frame before forwarding</li>
+        <li>Performs CRC check (error detection)</li>
+        <li>Cisco preferred method</li>
+      </ul>
+    </div>
+
+    <div class="bg-blue-700 p-3 rounded-t text-white font-semibold">Cut-Through Switching</div>
+    <div class="bg-blue-800 p-4 rounded-b">
+      <ul class="list-disc pl-6 text-gray-200">
+        <li>Forwards after reading destination MAC only</li>
+        <li>Lower latency, no error checking</li>
+        <li>Faster but can forward corrupted frames</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="bg-gray-900 text-white p-6 mb-10 rounded-lg shadow-lg text-center">
+  <h2 class="text-2xl font-bold text-cyan-400 mb-4">Collision Domains</h2>
+  <div class="max-w-2xl mx-auto text-left space-y-4">
+    <div class="bg-blue-800 p-4 rounded text-gray-200">
+      <strong>Benefit:</strong> Switches eliminate collisions → less network congestion.
+    </div>
+
+    <div class="bg-blue-700 p-3 rounded-t text-white font-semibold">Full Duplex</div>
+    <div class="bg-blue-800 p-4 rounded-b">
+      <ul class="list-disc pl-6 text-gray-200">
+        <li>Two-way communication</li>
+        <li>No collisions</li>
+      </ul>
+    </div>
+
+    <div class="bg-blue-700 p-3 rounded-t text-white font-semibold">Half Duplex</div>
+    <div class="bg-blue-800 p-4 rounded-b">
+      <ul class="list-disc pl-6 text-gray-200">
+        <li>Only one-way at a time</li>
+        <li>Collisions can occur</li>
+      </ul>
+    </div>
+
+    <div class="bg-blue-800 p-4 rounded text-gray-200">
+      <strong>Default:</strong> Cisco devices auto-negotiate speed/duplex by default.
+    </div>
+  </div>
+</section>
+
+<section class="bg-gray-900 text-white p-6 mb-10 rounded-lg shadow-lg text-center">
+  <h2 class="text-2xl font-bold text-cyan-400 mb-4">Broadcast Domains</h2>
+  <div class="max-w-2xl mx-auto text-left space-y-4">
+    <div class="bg-blue-800 p-4 rounded text-gray-200">
+      <strong>Definition:</strong> A broadcast domain includes all devices receiving Layer 2 broadcasts.
+    </div>
+
+    <div class="bg-blue-700 p-3 rounded-t text-white font-semibold">Key Characteristics</div>
+    <div class="bg-blue-800 p-4 rounded-b">
+      <ul class="list-disc pl-6 text-gray-200">
+        <li>Only routers break broadcast domains</li>
+        <li>Layer 2 switches flood broadcasts</li>
+      </ul>
+    </div>
+
+    <div class="bg-blue-700 p-3 rounded-t text-white font-semibold">Performance</div>
+    <div class="bg-blue-800 p-4 rounded-b">
+      <ul class="list-disc pl-6 text-gray-200">
+        <li>Too many broadcasts = slower network</li>
+        <li>Increased congestion</li>
+      </ul>
+    </div>
+
+    <div class="bg-blue-800 p-4 rounded text-gray-200">
+      <strong>Note:</strong> Sometimes called MAC broadcast domains.
+    </div>
+  </div>
+</section>
+
+<section class="bg-gray-900 text-white p-6 mb-10 rounded-lg shadow-lg text-center">
+  <h2 class="text-2xl font-bold text-cyan-400 mb-6">Switch Features That Alleviate Congestion</h2>
+  <table class="w-full text-left text-sm bg-blue-800 text-white rounded overflow-hidden">
+    <thead class="bg-blue-700 text-white">
+      <tr>
+        <th class="px-4 py-2 border border-blue-900">Feature</th>
+        <th class="px-4 py-2 border border-blue-900">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-t border-blue-900">
+        <td class="px-4 py-2 font-semibold">Fast Port Speeds</td>
+        <td class="px-4 py-2">Up to 100Gbps per port depending on model</td>
+      </tr>
+      <tr class="border-t border-blue-900">
+        <td class="px-4 py-2 font-semibold">Fast Internal Switching</td>
+        <td class="px-4 py-2">High-speed internal bus or memory buffers</td>
+      </tr>
+      <tr class="border-t border-blue-900">
+        <td class="px-4 py-2 font-semibold">Large Frame Buffers</td>
+        <td class="px-4 py-2">Stores burst traffic temporarily</td>
+      </tr>
+      <tr class="border-t border-blue-900">
+        <td class="px-4 py-2 font-semibold">High Port Density</td>
+        <td class="px-4 py-2">
+          <ul class="list-disc pl-6">
+            <li>More local connections</li>
+            <li>Reduced congestion from inter-device traffic</li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
