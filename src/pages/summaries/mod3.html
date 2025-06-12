@@ -1,7 +1,147 @@
-<h3>Switch Boot Sequence</h3>
-<ol>
-  <li>Power-On Self-Test (POST)</li>
-  <li>Boot Loader Initialization</li>
-  <li>Flash File System Setup</li>
-  <li>Load the IOS</li>
-</ol>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">VLAN Definitions</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <p class="mb-4">VLANs create logical networks with these key characteristics:</p>
+  
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Segmentation:</strong> Groups devices on shared switches</li>
+    <li><strong class="text-cyan-400">Simplified Management:</strong> Organized device grouping</li>
+    <li><strong class="text-cyan-400">Traffic Isolation:</strong> Contains all frame types within VLAN</li>
+    <li><strong class="text-cyan-400">IP Addressing:</strong> Dedicated subnet per VLAN</li>
+    <li><strong class="text-cyan-400">Broadcast Control:</strong> Reduces domain size</li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-4 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Layer 2 Advantage:</strong> Provides Layer 3-style segmentation while operating at Layer 2.</p>
+</div>
+
+<!-- Example code block (only black element) -->
+<div class="mb-6">
+  <h3 class="text-xl font-bold text-cyan-400 mb-2">VLAN Creation Example</h3>
+  <pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto">
+Switch# configure terminal
+Switch(config)# vlan 10
+Switch(config-vlan)# name Engineering
+Switch(config-vlan)# exit</pre>
+</div>
+
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Benefits of VLAN Design</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li>
+      <strong class="text-cyan-400">Smaller Broadcast Domains:</strong> 
+      Reduces broadcast traffic by dividing LANs
+    </li>
+    <li>
+      <strong class="text-cyan-400">Improved Security:</strong> 
+      Limits communication to same-VLAN devices
+    </li>
+    <li>
+      <strong class="text-cyan-400">IT Efficiency:</strong> 
+      Groups devices by function (e.g., faculty vs. students)
+    </li>
+    <li>
+      <strong class="text-cyan-400">Cost Reduction:</strong> 
+      Single switch supports multiple VLAN groups
+    </li>
+    <li>
+      <strong class="text-cyan-400">Performance Boost:</strong> 
+      Smaller domains increase available bandwidth
+    </li>
+    <li>
+      <strong class="text-cyan-400">Simplified Management:</strong> 
+      Unified policies for similar groups
+    </li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-4 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Design Tip:</strong> VLANs provide Layer 2 segmentation without requiring additional hardware.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Types of VLANs</h2>
+
+<!-- Default VLAN -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Default VLAN (VLAN 1)</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li>Preconfigured on all switches</li>
+    <li>Serves as:
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Default Native VLAN</li>
+        <li>Default Management VLAN</li>
+      </ul>
+    </li>
+    <li>Cannot be deleted or renamed</li>
+  </ul>
+</div>
+
+<!-- Critical Note (Cyan Box) -->
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-4 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Security Recommendation:</strong> Reassign default features to other VLANs despite VLAN 1 restrictions.</p>
+</div>
+
+<!-- Data VLAN -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Data VLAN</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li>Carries user traffic (email/web)</li>
+    <li>VLAN 1 is default but should be changed</li>
+  </ul>
+</div>
+
+<!-- Native VLAN -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Native VLAN</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li>Exclusive to trunk links</li>
+    <li>Untagged in 802.1Q trunks</li>
+    <li>Must match on both ends of trunk</li>
+  </ul>
+</div>
+
+<!-- Management VLAN -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Management VLAN</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li>Dedicated to administrative traffic (SSH/Telnet)</li>
+    <li>Typically the SVI interface VLAN</li>
+    <li>Should be separate from user VLANs</li>
+  </ul>
+</div>
+
+<!-- Voice VLAN -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Voice VLAN</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li>Special requirements:
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Guaranteed bandwidth</li>
+        <li>High QoS priority (DSCP EF)</li>
+        <li>&lt;150ms end-to-end delay</li>
+      </ul>
+    </li>
+    <li>Requires end-to-end network support</li>
+  </ul>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Defining VLAN Trunks</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <p class="mb-4">A trunk is a point-to-point link between two network devices with these Cisco-specific functions:</p>
+  
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Multi-VLAN Support:</strong> Carries traffic for multiple VLANs simultaneously</li>
+    <li><strong class="text-cyan-400">Network-Wide Extension:</strong> Enables VLANs to span across the entire network infrastructure</li>
+    <li><strong class="text-cyan-400">Default VLAN Handling:</strong> Initially supports all VLANs (can be pruned)</li>
+    <li><strong class="text-cyan-400">Standards Compliance:</strong> Implements IEEE 802.1Q tagging protocol</li>
+  </ul>
+</div>
+
+<!-- Configuration Example (Black background reserved for code) -->
+<h3 class="text-xl font-semibold text-cyan-400 mb-3">Basic Trunk Configuration</h3>
+<pre class="bg-black text-green-400 p-3 rounded text-sm mb-6 overflow-x-auto">
+Switch(config)# interface gigabitethernet0/1
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk native vlan 99
+Switch(config-if)# switchport trunk allowed vlan 10,20,30</pre>
