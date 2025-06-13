@@ -5,7 +5,7 @@
 // };
 
 // export default nextConfig;
-
+//what is wrong here
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
