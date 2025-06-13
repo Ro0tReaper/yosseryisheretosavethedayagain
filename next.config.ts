@@ -1,17 +1,17 @@
-// import type { NextConfig } from "next";
+import type { NextConfig } from "next";
 
-// const nextConfig: NextConfig = {
-//   //
-// };
-
-// export default nextConfig;
-//what is wrong here
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: 'export',
-  images: { unoptimized: true },
-  basePath: '/yosseryisheretosavethedayagain',
-  trailingSlash: true
+const nextConfig: NextConfig = {
+  //
 };
 
-module.exports = nextConfig;
+// export default nextConfig;
+//what is wo
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   output: 'export',
+//   images: { unoptimized: true },
+//   basePath: '/yosseryisheretosavethedayagain',
+//   trailingSlash: true
+// };
+
+// module.exports = nextConfig;
