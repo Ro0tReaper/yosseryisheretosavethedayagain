@@ -1,1 +1,261 @@
-underconstruction
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">DHCPv4 Essentials</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Purpose:</strong> Dynamically assigns IPv4 addresses and network configs</li>
+    <li><strong class="text-cyan-400">Server Types:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Dedicated servers (enterprise)</li>
+        <li>Cisco routers (SOHO/branch)</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Lease Process:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Addresses assigned from pool</li>
+        <li>Typical lease: 24h-1 week</li>
+        <li>Automatic renewal process</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-4 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Exam Focus:</strong> Know router DHCP config and lease timers.</p>
+</div>
+
+<h3 class="text-xl font-bold text-cyan-400 mb-3">Key Advantages</h3>
+<ul class="list-disc pl-6 text-gray-200 space-y-1 mb-6">
+  <li>Eliminates manual IP assignment</li>
+  <li>Centralized management</li>
+  <li>Supports address reuse</li>
+</ul>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">DHCPv4 Operation</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Client/Server Model:</strong> Server leases IPv4 addresses to clients</li>
+    <li><strong class="text-cyan-400">Lease Cycle:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Client uses address until lease expires</li>
+        <li>Periodic lease renewal required</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Address Management:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Expired addresses return to pool</li>
+        <li>Prevents address hoarding</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-4 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Exam Tip:</strong> Memorize DHCP states: Discover, Offer, Request, Acknowledge (DORA).</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">DHCP Lease Acquisition Process</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg border border-cyan-800">
+  <ol class="list-decimal pl-6 space-y-3">
+    <li><strong class="text-cyan-400">DHCP Discover (DHCPDISCOVER):</strong> Client broadcasts to locate servers</li>
+    <li><strong class="text-cyan-400">DHCP Offer (DHCPOFFER):</strong> Server responds with available IP</li>
+    <li><strong class="text-cyan-400">DHCP Request (DHCPREQUEST):</strong> Client accepts offer</li>
+    <li><strong class="text-cyan-400">DHCP Acknowledgment (DHCPACK):</strong> Server confirms lease</li>
+  </ol>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">DHCP Lease Renewal Process</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ol class="list-decimal pl-6 space-y-3">
+    <li><strong class="text-cyan-400">DHCP Request (DHCPREQUEST):</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Sent directly to original DHCP server</li>
+        <li>Broadcast if no response received</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">DHCP Acknowledgment (DHCPACK):</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Server verifies lease details</li>
+        <li>Confirms renewal</li>
+      </ul>
+    </li>
+  </ol>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Exam Critical:</strong> DHCPOFFER/DHCPACK can be unicast or broadcast (RFC 2131).</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Cisco IOS DHCPv4 Server</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li><strong class="text-cyan-400">Router as DHCP Server:</strong> Cisco IOS routers can provide full DHCPv4 services without dedicated servers</li>
+    
+    <li><strong class="text-cyan-400">Address Management:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Dynamically leases IPs from configurable pools</li>
+        <li>Mandatory exclusion of static IPs (routers, servers, etc.)</li>
+        <li>Supports lease time customization</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">Network Integration:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Can serve multiple VLANs/subnets simultaneously</li>
+        <li>Provides DNS/WINS/default gateway info to clients</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">Enterprise vs SOHO:</strong> Ideal for branch offices/small networks; larger networks may prefer dedicated servers</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-4 rounded-lg border border-cyan-800">
+  <p class="text-cyan-300"><strong>Configuration Reference:</strong> See <em>Commands Section</em> for setup details.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">DHCP Verification Commands</h2>
+
+<table class="w-full text-sm text-gray-200 border border-cyan-800 mb-6">
+  <thead class="bg-cyan-800 text-white">
+    <tr>
+      <th class="px-4 py-3 border border-cyan-700">Command</th>
+      <th class="px-4 py-3 border border-cyan-700">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700 font-mono">show running-config | section dhcp</td>
+      <td class="px-4 py-3 border border-cyan-700">Displays the DHCPv4 commands configured on the router</td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700 font-mono">show ip dhcp binding</td>
+      <td class="px-4 py-3 border border-cyan-700">Lists all IPv4-to-MAC address bindings</td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700 font-mono">show ip dhcp server statistics</td>
+      <td class="px-4 py-3 border border-cyan-700">Shows DHCPv4 message counters (sent/received)</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-4 rounded-lg border border-cyan-800">
+  <p class="text-cyan-300"><strong>Usage:</strong> These verification commands help troubleshoot DHCP server operations.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Disabling Cisco IOS DHCPv4 Server</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li><strong class="text-cyan-400">Default State:</strong> DHCPv4 service is enabled by default on Cisco IOS</li>
+    <li><strong class="text-cyan-400">Disable Command:</strong> <code class="bg-black text-green-400 px-1 rounded">no service dhcp</code> (global config)</li>
+    <li><strong class="text-cyan-400">Re-enable Command:</strong> <code class="bg-black text-green-400 px-1 rounded">service dhcp</code> (requires parameter configuration)</li>
+    <li><strong class="text-cyan-400">Service Restart Impact:</strong> May cause temporary duplicate IP assignments</li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Important Note:</strong> Restarting DHCP service clears existing bindings - use during maintenance windows only.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">DHCPv4 Relay</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li><strong class="text-cyan-400">Enterprise Network Challenge:</strong> 
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Centralized DHCP servers in hierarchical networks</li>
+        <li>Client broadcast messages don't cross subnets</li>
+      </ul>
+    </li>
+    
+    <li><strong class="text-cyan-400">Relay Agent Function:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Forwards client DHCP requests across subnets</li>
+        <li>Converts broadcasts to unicast for server communication</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">Implementation Requirement:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Must be manually configured on routers</li>
+        <li>Requires DHCP server IP address specification</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Network Design Impact:</strong> Relay agents are essential when DHCP servers aren't on client subnets.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">DHCPv4 Relay Operation</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li><strong class="text-cyan-400">Relay Agent Configuration:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Requires <code class="bg-black text-green-400 px-1 rounded">ip helper-address</code> on the router interface</li>
+        <li>Example: Forwards to server at 192.168.11.6</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">Message Handling:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Converts client broadcasts to unicast</li>
+        <li>Directs requests to specified DHCP server</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">Verification:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Configuration visible in interface details</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Default Relayed UDP Services</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li><strong class="text-cyan-400">ip helper-address</strong> relays these UDP services by default:
+      <ul class="list-circle pl-6 mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+        <li><strong>Time:</strong> Port 37</li>
+        <li><strong>TACACS:</strong> Port 49</li>
+        <li><strong>DNS:</strong> Port 53</li>
+        <li><strong>DHCP Server:</strong> Port 67</li>
+        <li><strong>DHCP Client:</strong> Port 68</li>
+        <li><strong>TFTP:</strong> Port 69</li>
+        <li><strong>NetBIOS Name:</strong> Port 137</li>
+        <li><strong>NetBIOS Datagram:</strong> Port 138</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Service Impact:</strong> Relay affects all listed services unless filtered</li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Network Design Note:</strong> Consider creating ACLs to filter unwanted relayed services.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Router as DHCPv4 Client</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li><strong class="text-cyan-400">Use Cases:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>SOHO/branch routers connecting to ISP</li>
+        <li>Ethernet interfaces for cable/DSL modems</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">Configuration Principle:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Interface receives IP via DHCP like end devices</li>
+        <li>Uses <code class="bg-black text-green-400 px-1 rounded">ip address dhcp</code> command</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">Home Router Implementation:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Typically pre-configured for DHCP client mode</li>
+        <li>"Automatic Configuration - DHCP" common in UIs</li>
+      </ul>
+    </li>
+  </ul>
+</div>

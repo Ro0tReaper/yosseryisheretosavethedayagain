@@ -1,1 +1,259 @@
-underconstruction
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">IPv6 Host Configuration</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li><strong class="text-cyan-400">Manual Configuration:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Possible on routers and Windows hosts</li>
+        <li>Prone to errors in long IPv6 addresses</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">Link-Local Address (LLA):</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Automatically generated at boot</li>
+        <li>Uses Zone/Scope ID (% notation)</li>
+        <li>Requires no router presence</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">Dynamic GUA Assignment:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Uses ICMPv6 Router Advertisements (RAs)</li>
+        <li>Two methods: stateless, (SLAAC) and stateful (DHCPv6)</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<h3 class="text-xl font-bold text-cyan-400 mb-3">RA Message Flags</h3>
+<table class="w-full text-sm text-gray-200 border border-cyan-800 mb-6">
+  <thead class="bg-cyan-800 text-white">
+    <tr>
+      <th class="px-4 py-3 border border-cyan-700">Flag</th>
+      <th class="px-4 py-3 border border-cyan-700">Function</th>
+      <th class="px-4 py-3 border border-cyan-700">Configuration Method</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700 font-mono text-center">A</td>
+      <td class="px-4 py-3 border border-cyan-700">Address Autoconfiguration</td>
+      <td class="px-4 py-3 border border-cyan-700">SLAAC</td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700 font-mono text-center">O</td>
+      <td class="px-4 py-3 border border-cyan-700">Other Configuration</td>
+      <td class="px-4 py-3 border border-cyan-700">Stateless DHCPv6</td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700 font-mono text-center">M</td>
+      <td class="px-4 py-3 border border-cyan-700">Managed Address</td>
+      <td class="px-4 py-3 border border-cyan-700">Stateful DHCPv6</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Key Behavior:</strong> Hosts follow RA suggestions but ultimately decide their configuration method.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">SLAAC Configuration</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li><strong class="text-cyan-400">Core Function:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Hosts self-generate GUAs without DHCPv6</li>
+        <li>Stateless service (no address tracking)</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">RA Messaging:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li>Routers send RAs every 200 seconds</li>
+        <li>Hosts can request via Router Solicitation (RS)</li>
+        <li>Uses all-nodes multicast (ff02::1)</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">Flag Configuration:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li><strong>A=1, O=0, M=0:</strong> Pure SLAAC mode</li>
+        <li><span class="text-cyan-100">Provides prefix only</span> (host creates Interface ID)</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Example Router Setup</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Link-local:</strong> fe80::1</li>
+    <li><strong>GUA:</strong> 2001:db8:acad:1::1/64</li>
+    <li><strong>Multicast Groups:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>All-nodes: ff02::1 (send RAs)</li>
+        <li>All-routers: ff02::2 (receive RS)</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Verification:</strong> Use <code>show ipv6 interface</code> to confirm multicast group membership.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">SLAAC Address Acquisition</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">RS/RA Exchange</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Router Solicitation (RS):</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Sent to ff02::2 (all-routers)</li>
+        <li>Triggers immediate RA response</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Router Advertisement (RA):</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Sent to ff02::1 (all-nodes)</li>
+        <li>Contains subnet prefix for SLAAC</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Interface ID Generation</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Random Generation:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Default in Windows 10</li>
+        <li>Enhanced privacy</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">EUI-64 Method:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Embeds MAC address (with FFFE inserted in the middle)</li>
+        <li>Privacy concerns limit usage</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Duplicate Address Detection (DAD)</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Process:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Host sends Neighbor Solicitation to multicast addess containing last 24 bits of its new IPv6 address(NS)</li>
+        <li>Listens for Neighbor Advertisement (NA), if found, this means that the address is taken</li>
+        <li>If no NA was found this means all good!!</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">IETF Recommendation:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>DAD is really not required because a 64-bit interface ID provides 18 quintillion possibilities. the chance of a duplicate address is remote.</li>
+        <li>Required by IETF despite low collision probability</li>
+        <li>Performed on all unicast addresses</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Exam Focus:</strong> Know the RS/RA multicast addresses (ff02::1 and ff02::2) and DAD sequence.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">DHCPv6 Operation</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Message Sequence</h3>
+  <ol class="list-decimal pl-6 space-y-2">
+    <li>Host → RS (ff02::2)</li>
+    <li>Router → RA (ff02::1)</li>
+    <li>Host → DHCPv6 SOLICIT (UDP 547)</li>
+    <li>Server → ADVERTISE (UDP 546)</li>
+    <li>Host → REQUEST/INFORMATION-REQUEST</li>
+    <li>Server → REPLY</li>
+  </ol>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Stateless DHCPv6</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">RA Flags:</strong> A=1, O=1, M=0</li>
+    <li><strong class="text-cyan-400">Operation:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>SLAAC for addressing</li>
+        <li>DHCPv6 for other config (DNS, etc.)</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Configuration:</strong> <code class="bg-black text-green-400 px-1 rounded">ipv6 nd other-config-flag</code></li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Stateful DHCPv6</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">RA Flags:</strong> A=0, O=0, M=1</li>
+    <li><strong class="text-cyan-400">Operation:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>DHCPv6 provides all config</li>
+        <li>Maintains address bindings</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Configuration:</strong> <code class="bg-black text-green-400 px-1 rounded">ipv6 nd managed-config-flag</code></li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Port Reference:</strong> Client (547) → Server (546) for all DHCPv6 messages.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">DHCPv6 Router Roles</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li><strong class="text-cyan-400">Server Roles:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-2">
+        <li><strong>Stateless:</strong> Provides config only (DNS, domain)</li>
+        <li><strong>Stateful:</strong> Provides full addressing + config</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Client Role:</strong> Interfaces obtain IPv6 config from DHCPv6 server</li>
+    <li><strong class="text-cyan-400">Relay Agent:</strong> Forwards requests across subnets</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Stateless DHCPv6 Server</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Requirements:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>RA with A=1, O=1</li>
+        <li>DHCP pool with DNS/domain info</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Key Command:</strong> <code class="bg-black text-green-400 px-1 rounded">ipv6 nd other-config-flag</code></li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Stateful DHCPv6 Server</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Requirements:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>RA with A=0, M=1</li>
+        <li>DHCP pool with address prefix</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Key Commands:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li><code class="bg-black text-green-400 px-1 rounded">ipv6 nd managed-config-flag</code></li>
+        <li><code class="bg-black text-green-400 px-1 rounded">ipv6 nd prefix default no-autoconfig</code></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Verification:</strong> Use <code>show ipv6 dhcp interface</code> for client status checks.</p>
+</div>
