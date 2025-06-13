@@ -1,1 +1,187 @@
-underconstruction
+<h2 class="text-2xl font-bold text-indigo-600 mb-4">Link Aggregation and EtherChannel</h2>
+
+<div class="bg-gray-900 text-gray-200 p-5 rounded-lg mb-6 border border-indigo-700">
+  <p>EtherChannel is a Cisco-developed link aggregation technology that combines multiple physical Ethernet links into a single logical link, called a port channel. This provides fault tolerance, load sharing, increased bandwidth, and redundancy between switches, routers, and servers.</p>
+
+  <h3 class="text-lg font-semibold mt-4 mb-2">Advantages of EtherChannel</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li>Configuration is done on the port channel interface, simplifying management.</li>
+    <li>Uses existing switch ports to increase bandwidth without expensive upgrades.</li>
+    <li>Load balances traffic between the physical links.</li>
+    <li>Provides redundancy; loss of one physical link does not affect the logical connection.</li>
+    <li>STP treats the EtherChannel as a single link, preventing partial blocking of individual ports.</li>
+  </ul>
+
+  <h3 class="text-lg font-semibold mt-4 mb-2">Implementation Restrictions</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li>All ports must be of the same type (e.g., all Gigabit Ethernet).</li>
+    <li>Up to eight ports can be aggregated in one EtherChannel.</li>
+    <li>Configuration must be consistent on both ends (trunk/access mode, VLANs).</li>
+    <li>Only Layer 2 ports are supported in EtherChannel groups.</li>
+    <li>Cisco Catalyst 2960 supports up to six EtherChannels.</li>
+  </ul>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">AutoNegotiation Protocols</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800 max-w-full">
+  <p>
+    EtherChannels can be formed through negotiation using one of two protocols, <strong>Port Aggregation Protocol (PAgP)</strong> or <strong>Link Aggregation Control Protocol (LACP)</strong>. These protocols allow ports with similar characteristics to form a channel dynamically with adjoining switches.
+  </p>
+  <p class="mt-3">
+    <strong>Note:</strong> It is also possible to configure a static or unconditional EtherChannel without PAgP or LACP.
+  </p>
+
+  <h3 class="text-lg font-semibold mt-5 mb-3 text-cyan-400">PAgP Operation</h3>
+  <p>
+    PAgP (pronounced “Pag-P”) is a Cisco-proprietary protocol that helps automatically create EtherChannel links by sending negotiation packets between capable ports. When matching links are identified, they are grouped into one EtherChannel added to the spanning tree as a single port.
+  </p>
+  <p class="mt-3">
+    PAgP sends packets every 30 seconds to check configuration consistency, manage link additions, and detect failures. All ports in an EtherChannel must have the same speed, duplex, and VLAN configuration. Any changes to one port affect all other ports in the channel.
+  </p>
+
+  <h3 class="text-lg font-semibold mt-5 mb-3 text-cyan-400">PAgP Modes</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>On:</strong> Forces the interface to channel without PAgP. Does not exchange PAgP packets.</li>
+    <li><strong>PAgP Desirable:</strong> Actively initiates negotiation by sending PAgP packets.</li>
+    <li><strong>PAgP Auto:</strong> Passively responds to PAgP packets but does not initiate negotiation.</li>
+  </ul>
+  <p class="mt-3">
+    Modes must be compatible on both sides for EtherChannel to form. For example, if both sides are <code>auto</code>, negotiation never starts and no channel forms. The <code>on</code> mode requires both sides to be set to <code>on</code>.
+  </p>
+
+  <h3 class="text-lg font-semibold mt-5 mb-3 text-cyan-400">Channel Establishment Table</h3>
+  <div class="overflow-x-auto">
+    <table class="w-full min-w-[400px] text-gray-200 border border-cyan-700 rounded-md text-center">
+      <thead class="bg-cyan-700">
+        <tr>
+          <th class="p-2 border border-cyan-600 text-sm sm:text-base">S1 Mode</th>
+          <th class="p-2 border border-cyan-600 text-sm sm:text-base">S2 Mode</th>
+          <th class="p-2 border border-cyan-600 text-sm sm:text-base">Channel Formed?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border border-cyan-600">
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">On</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">On</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Yes</td>
+        </tr>
+        <tr class="border border-cyan-600 bg-gray-700">
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">On</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Desirable/Auto</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">No</td>
+        </tr>
+        <tr class="border border-cyan-600">
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Desirable</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Desirable</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Yes</td>
+        </tr>
+        <tr class="border border-cyan-600 bg-gray-700">
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Desirable</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Auto</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Yes</td>
+        </tr>
+        <tr class="border border-cyan-600">
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Auto</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Desirable</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Yes</td>
+        </tr>
+        <tr class="border border-cyan-600 bg-gray-700">
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Auto</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">Auto</td>
+          <td class="p-2 border border-cyan-600 text-sm sm:text-base">No</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h2 class="text-2xl font-bold text-cyan-500 mb-4">LACP Operation</h2>
+
+  <p class="mb-4 text-gray-300">
+    LACP (Link Aggregation Control Protocol) is part of the IEEE 802.3ad standard, enabling the bundling of multiple physical links into one logical link. It functions similarly to PAgP but is vendor-neutral, allowing interoperability between different devices. Cisco devices support both LACP and PAgP.
+  </p>
+
+  <p class="mb-4 text-gray-300">
+    LACP negotiates link bundling by exchanging LACP packets, ensuring compatible configurations on both ends. The three operational modes are:
+  </p>
+
+  <ul class="list-disc pl-6 mb-6 space-y-2 text-gray-300">
+    <li><strong class="text-cyan-400">On:</strong> Forces the interface into EtherChannel without using LACP. No LACP packets are exchanged.</li>
+    <li><strong class="text-cyan-400">LACP active:</strong> Actively initiates LACP negotiation by sending packets.</li>
+    <li><strong class="text-cyan-400">LACP passive:</strong> Waits for LACP packets and responds but does not initiate negotiation.</li>
+  </ul>
+
+  <div class="overflow-x-auto mb-6">
+    <table class="w-full min-w-[500px] text-left border-collapse border border-cyan-700">
+      <thead>
+        <tr class="bg-cyan-700 text-gray-100 text-sm sm:text-base">
+          <th class="border border-cyan-600 px-3 py-2">S1</th>
+          <th class="border border-cyan-600 px-3 py-2">S2</th>
+          <th class="border border-cyan-600 px-3 py-2">Channel Establishment</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-300 text-sm sm:text-base">
+        <tr class="odd:bg-gray-900 even:bg-gray-800">
+          <td class="border border-cyan-600 px-3 py-2">On</td>
+          <td class="border border-cyan-600 px-3 py-2">On</td>
+          <td class="border border-cyan-600 px-3 py-2">Yes</td>
+        </tr>
+        <tr class="odd:bg-gray-900 even:bg-gray-800">
+          <td class="border border-cyan-600 px-3 py-2">On</td>
+          <td class="border border-cyan-600 px-3 py-2">Active/Passive</td>
+          <td class="border border-cyan-600 px-3 py-2">No</td>
+        </tr>
+        <tr class="odd:bg-gray-900 even:bg-gray-800">
+          <td class="border border-cyan-600 px-3 py-2">Active</td>
+          <td class="border border-cyan-600 px-3 py-2">Active</td>
+          <td class="border border-cyan-600 px-3 py-2">Yes</td>
+        </tr>
+        <tr class="odd:bg-gray-900 even:bg-gray-800">
+          <td class="border border-cyan-600 px-3 py-2">Active</td>
+          <td class="border border-cyan-600 px-3 py-2">Passive</td>
+          <td class="border border-cyan-600 px-3 py-2">Yes</td>
+        </tr>
+        <tr class="odd:bg-gray-900 even:bg-gray-800">
+          <td class="border border-cyan-600 px-3 py-2">Passive</td>
+          <td class="border border-cyan-600 px-3 py-2">Active</td>
+          <td class="border border-cyan-600 px-3 py-2">Yes</td>
+        </tr>
+        <tr class="odd:bg-gray-900 even:bg-gray-800">
+          <td class="border border-cyan-600 px-3 py-2">Passive</td>
+          <td class="border border-cyan-600 px-3 py-2">Passive</td>
+          <td class="border border-cyan-600 px-3 py-2">No</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Configuration Guidelines</h3>
+  <ul class="list-disc pl-6 space-y-2 text-gray-300">
+    <li><strong class="text-cyan-400">EtherChannel support:</strong> Interfaces do not need to be contiguous, but all must support EtherChannel.</li>
+    <li><strong class="text-cyan-400">Speed and duplex:</strong> All interfaces must use the same speed and duplex mode.</li>
+    <li><strong class="text-cyan-400">VLAN configuration:</strong> All interfaces must be in the same VLAN or configured as trunks.</li>
+    <li><strong class="text-cyan-400">VLAN range:</strong> Trunk ports must allow the same VLAN range across all bundled interfaces.</li>
+  </ul>
+</div>
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h2 class="text-2xl font-bold text-cyan-500 mb-4">Verify EtherChannel</h2>
+
+  <p class="mb-4 text-gray-300">
+    After configuring EtherChannel, it’s essential to verify that it is functioning as expected. Cisco provides several commands to help you inspect and troubleshoot your EtherChannel configuration:
+  </p>
+
+  <ul class="list-disc pl-6 space-y-2 text-gray-300">
+    <li>
+      <strong class="text-cyan-400">show interfaces port-channel</strong> — Displays the general status and statistics of the Port-Channel interface.
+    </li>
+    <li>
+      <strong class="text-cyan-400">show etherchannel summary</strong> — Summarizes EtherChannel information in a single line per channel, including protocol and state.
+    </li>
+    <li>
+      <strong class="text-cyan-400">show etherchannel port-channel</strong> — Provides detailed info about a specific Port-Channel interface.
+    </li>
+    <li>
+      <strong class="text-cyan-400">show interfaces etherchannel</strong> — Shows the role and operational state of each physical interface in the EtherChannel.
+    </li>
+  </ul>
+</div>

@@ -1,1 +1,366 @@
-underconstruction
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Layer 2 Redundancy & Loops</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Overview</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Redundancy eliminates single points of failure in Layer 2 networks.</li>
+    <li>Allows data to reroute through alternate physical paths during failure.</li>
+    <li>Can cause logical loops without proper protocol management.</li>
+    <li>Ethernet requires loop-free topologies to prevent broadcast storms.</li>
+    <li><strong>Spanning Tree Protocol (STP)</strong> disables redundant links to maintain loop-free paths.</li>
+  </ul>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Spanning Tree Protocol & Layer 2 Loops</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">What is STP?</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>STP (Spanning Tree Protocol) prevents loops in Layer 2 Ethernet networks.</li>
+    <li>Maintains redundancy while logically blocking physical loop paths.</li>
+    <li>Recalculates and reopens blocked ports when a failure occurs.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Problems Without STP</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Redundant links without STP can form Layer 2 loops.</li>
+    <li>Results in MAC table instability, link saturation, and high CPU usage.</li>
+    <li>Ethernet lacks a TTL mechanism like IPv4/IPv6 – frames can loop forever.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Layer 2 Loop Behavior</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Broadcast, multicast, and unknown unicast frames loop endlessly.</li>
+    <li>MAC table rapidly updates, leading to instability and switch overload.</li>
+    <li>Unknown unicast: frame is flooded to all ports (except the source).</li>
+  </ul>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">The Spanning Tree Algorithm & STP Operations</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">What is STA?</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Invented by Radia Perlman in 1985.</li>
+    <li>Creates loop-free topology by selecting a single Root Bridge.</li>
+    <li>Blocks redundant paths and unblocks them dynamically on failure.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">How STA Creates Loop-Free Topology</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Select Root Bridge as network reference point.</li>
+    <li>Block redundant paths to prevent loops.</li>
+    <li>Create single active path per switch to Root Bridge.</li>
+    <li>Recalculate and unblock ports if network changes or failures occur.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">STP Operations – 4 Key Steps</h3>
+  <ol class="list-decimal pl-5 space-y-1 text-gray-300">
+    <li>Elect Root Bridge</li>
+    <li>Elect Root Ports</li>
+    <li>Elect Designated Ports</li>
+    <li>Elect Alternate (Blocked) Ports</li>
+  </ol>
+  <p class="mt-3 text-gray-300">
+    Switches share info using <strong>Bridge Protocol Data Units (BPDUs)</strong>, which contain the <strong>Bridge ID (BID)</strong>—a combination of priority, MAC address, and system ID. The lowest BID is elected as Root Bridge.
+  </p>
+</div>
+
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">STP Bridge Priority, Root Election & Path Cost</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Bridge Priority & Bridge ID (BID)</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Default priority: 32768 (range 0-61440, increments of 4096).</li>
+    <li>Lower priority preferred; 0 has highest precedence.</li>
+    <li>Extended System ID added to priority to identify VLAN.</li>
+    <li>If tie in priority & system ID, lowest MAC address wins.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">STP Root Bridge Election</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Switches send BPDUs every 2 seconds, initially claiming root status.</li>
+    <li>Switch with lowest BID becomes root bridge.</li>
+    <li>Equal priorities → lowest MAC address decides root.</li>
+    <li>Admins can assign lower priority to select preferred root.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Root Path Cost Determination</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Root path cost = sum of port costs from switch to root.</li>
+    <li>Switches add ingress port cost to BPDU.</li>
+    <li>Default IEEE 802.1D port costs:</li>
+  </ul>
+  <table class="table-auto border-collapse border border-cyan-700 text-gray-300 w-full text-sm">
+    <thead>
+      <tr>
+        <th class="border border-cyan-700 px-3 py-1 text-left">Link Speed</th>
+        <th class="border border-cyan-700 px-3 py-1 text-left">STP Cost (802.1D)</th>
+        <th class="border border-cyan-700 px-3 py-1 text-left">RSTP Cost (802.1w)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="border border-cyan-700 px-3 py-1">10 Gbps</td>
+        <td class="border border-cyan-700 px-3 py-1">2</td>
+        <td class="border border-cyan-700 px-3 py-1">2,000</td>
+      </tr>
+      <tr>
+        <td class="border border-cyan-700 px-3 py-1">1 Gbps</td>
+        <td class="border border-cyan-700 px-3 py-1">4</td>
+        <td class="border border-cyan-700 px-3 py-1">20,000</td>
+      </tr>
+      <tr>
+        <td class="border border-cyan-700 px-3 py-1">100 Mbps</td>
+        <td class="border border-cyan-700 px-3 py-1">19</td>
+        <td class="border border-cyan-700 px-3 py-1">200,000</td>
+      </tr>
+      <tr>
+        <td class="border border-cyan-700 px-3 py-1">10 Mbps</td>
+        <td class="border border-cyan-700 px-3 py-1">100</td>
+        <td class="border border-cyan-700 px-3 py-1">2,000,000</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="mt-3 text-gray-300">Port costs are configurable to control spanning tree path selection.</p>
+</div>
+
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">STP Port Role Elections</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">2. Elect the Root Ports</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Each non-root switch selects one root port.</li>
+    <li>Root port = port with lowest internal root path cost to root bridge.</li>
+    <li>Path cost = sum of all port costs along path.</li>
+    <li>Preferred path chosen; other redundant paths blocked.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">3. Elect Designated Ports</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Each segment has one designated port.</li>
+    <li>Designated port = port with best path cost to root bridge on segment.</li>
+    <li>All root bridge ports are designated ports.</li>
+    <li>If one end is root port, other end is designated port.</li>
+    <li>Ports to end devices are always designated ports.</li>
+    <li>Between switches (non-root), port on switch with least cost path is designated.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">4. Elect Alternate (Blocked) Ports</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Ports not root or designated become alternate (blocked) ports.</li>
+    <li>Alternate ports discard/block frames to prevent loops.</li>
+    <li>Only one forwarding port per segment allowed; others blocked.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Root Port Selection with Equal-Cost Paths</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li>Tie-break criteria when multiple equal-cost paths:</li>
+    <li>1. Lowest sender Bridge ID (BID).</li>
+    <li>2. Lowest sender port priority.</li>
+    <li>3. Lowest sender port ID.</li>
+  </ul>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">STP Timers and Port States</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">STP Timers</h3>
+  <ul class="list-disc pl-5 space-y-1 text-gray-300">
+    <li><strong>Hello Timer:</strong> Interval between BPDUs; default 2s (configurable 1–10s).</li>
+    <li><strong>Forward Delay Timer:</strong> Time in listening & learning states; default 15s (4–30s configurable).</li>
+    <li><strong>Max Age Timer:</strong> Max wait before topology change; default 20s (6–40s configurable).</li>
+    <li><em>Note:</em> Root bridge sets the timer values for the STP domain.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">STP Port States</h3>
+  <p class="mb-3 text-gray-300">
+    STP prevents loops by managing port states during topology changes. Ports can be in one of five states:
+    <strong>Blocking, Listening, Learning, Forwarding, Disabled</strong> (disabled is non-operational).
+  </p>
+
+  <div class="overflow-x-auto">
+    <table class="w-full min-w-[500px] text-left border-collapse border border-cyan-700">
+      <thead>
+        <tr class="bg-cyan-700 text-gray-100 text-sm sm:text-base">
+          <th class="border border-cyan-600 px-3 py-2">Port State</th>
+          <th class="border border-cyan-600 px-3 py-2">BPDU Frames</th>
+          <th class="border border-cyan-600 px-3 py-2">MAC Address Table Updates</th>
+          <th class="border border-cyan-600 px-3 py-2">Forwarding Data Frames</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-300 text-sm sm:text-base">
+        <tr class="odd:bg-gray-900 even:bg-gray-800">
+          <td class="border border-cyan-600 px-3 py-2">Blocking</td>
+          <td class="border border-cyan-600 px-3 py-2">Receive only</td>
+          <td class="border border-cyan-600 px-3 py-2">No update</td>
+          <td class="border border-cyan-600 px-3 py-2">No</td>
+        </tr>
+        <tr class="odd:bg-gray-900 even:bg-gray-800">
+          <td class="border border-cyan-600 px-3 py-2">Listening</td>
+          <td class="border border-cyan-600 px-3 py-2">Receive and send</td>
+          <td class="border border-cyan-600 px-3 py-2">No update</td>
+          <td class="border border-cyan-600 px-3 py-2">No</td>
+        </tr>
+        <tr class="odd:bg-gray-900 even:bg-gray-800">
+          <td class="border border-cyan-600 px-3 py-2">Learning</td>
+          <td class="border border-cyan-600 px-3 py-2">Receive and send</td>
+          <td class="border border-cyan-600 px-3 py-2">Updating table</td>
+          <td class="border border-cyan-600 px-3 py-2">No</td>
+        </tr>
+        <tr class="odd:bg-gray-900 even:bg-gray-800">
+          <td class="border border-cyan-600 px-3 py-2">Forwarding</td>
+          <td class="border border-cyan-600 px-3 py-2">Receive and send</td>
+          <td class="border border-cyan-600 px-3 py-2">Updating table</td>
+          <td class="border border-cyan-600 px-3 py-2">Yes</td>
+        </tr>
+        <tr class="odd:bg-gray-900 even:bg-gray-800">
+          <td class="border border-cyan-600 px-3 py-2">Disabled</td>
+          <td class="border border-cyan-600 px-3 py-2">None sent or received</td>
+          <td class="border border-cyan-600 px-3 py-2">No update</td>
+          <td class="border border-cyan-600 px-3 py-2">No</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- end here -->
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Per-VLAN Spanning Tree &amp; STP Evolution</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Per-VLAN Spanning Tree (PVST)</h3>
+  <p class="mb-3 text-gray-300">
+    STP can operate with multiple VLANs by running a separate spanning tree instance for each VLAN.
+    This allows different VLANs to have different root bridges. If all ports belong to VLAN 1, only one STP instance exists.
+  </p>
+  <p class="text-gray-300">
+    Cisco’s PVST+ runs one 802.1D spanning tree instance per VLAN and supports enhancements like PortFast, BPDU guard, root guard, and loop guard.
+  </p>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Evolution of STP</h3>
+  <ul class="list-disc pl-5 space-y-2 text-gray-300">
+    <li><strong>STP (802.1D-1998):</strong> The original spanning tree protocol (Common Spanning Tree) with one instance for all VLANs.</li>
+    <li><strong>PVST+:</strong> Cisco’s enhancement providing one STP instance per VLAN with Cisco features.</li>
+    <li><strong>802.1D-2004:</strong> Updated IEEE STP standard incorporating IEEE 802.1w.</li>
+    <li><strong>RSTP (802.1w):</strong> Rapid Spanning Tree Protocol with faster convergence.</li>
+    <li><strong>Rapid PVST+:</strong> Cisco’s RSTP per-VLAN enhancement supporting Cisco features.</li>
+    <li><strong>MSTP:</strong> IEEE standard mapping multiple VLANs into fewer spanning tree instances.</li>
+    <li><strong>MST:</strong> Cisco’s MSTP implementation supporting up to 16 RSTP instances and grouping VLANs by topology.</li>
+  </ul>
+</div>
+
+<table class="w-full text-left border-collapse border border-cyan-700 mb-6">
+  <thead>
+    <tr class="bg-cyan-700 text-gray-100">
+      <th class="border border-cyan-600 px-3 py-2">STP Variety</th>
+      <th class="border border-cyan-600 px-3 py-2">Description</th>
+    </tr>
+  </thead>
+  <tbody class="text-gray-300">
+    <tr class="odd:bg-gray-900 even:bg-gray-800">
+      <td class="border border-cyan-600 px-3 py-2">STP</td>
+      <td class="border border-cyan-600 px-3 py-2">
+        Original IEEE 802.1D (1998 &amp; earlier). One spanning tree instance for entire bridged network, regardless of VLANs (Common Spanning Tree).
+      </td>
+    </tr>
+    <tr class="odd:bg-gray-900 even:bg-gray-800">
+      <td class="border border-cyan-600 px-3 py-2">PVST+</td>
+      <td class="border border-cyan-600 px-3 py-2">
+        Cisco enhancement running one 802.1D instance per VLAN. Supports PortFast, UplinkFast, BackboneFast, BPDU guard, root guard, and loop guard.
+      </td>
+    </tr>
+    <tr class="odd:bg-gray-900 even:bg-gray-800">
+      <td class="border border-cyan-600 px-3 py-2">802.1D-2004</td>
+      <td class="border border-cyan-600 px-3 py-2">Updated STP standard incorporating IEEE 802.1w.</td>
+    </tr>
+    <tr class="odd:bg-gray-900 even:bg-gray-800">
+      <td class="border border-cyan-600 px-3 py-2">RSTP</td>
+      <td class="border border-cyan-600 px-3 py-2">
+        Rapid Spanning Tree Protocol (IEEE 802.1w) with faster convergence than original STP.
+      </td>
+    </tr>
+    <tr class="odd:bg-gray-900 even:bg-gray-800">
+      <td class="border border-cyan-600 px-3 py-2">Rapid PVST+</td>
+      <td class="border border-cyan-600 px-3 py-2">
+        Cisco’s Rapid PVST+ runs RSTP per VLAN, supporting Cisco features like PortFast and BPDU guard.
+      </td>
+    </tr>
+    <tr class="odd:bg-gray-900 even:bg-gray-800">
+      <td class="border border-cyan-600 px-3 py-2">MSTP</td>
+      <td class="border border-cyan-600 px-3 py-2">
+        IEEE standard that maps multiple VLANs into fewer spanning tree instances for scalability.
+      </td>
+    </tr>
+    <tr class="odd:bg-gray-900 even:bg-gray-800">
+      <td class="border border-cyan-600 px-3 py-2">MST</td>
+      <td class="border border-cyan-600 px-3 py-2">
+        Cisco implementation of MSTP with up to 16 RSTP instances, grouping VLANs by topology. Supports Cisco STP features.
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">RSTP Concepts and Features</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">RSTP Overview (IEEE 802.1w)</h3>
+  <ul class="list-disc pl-5 space-y-2 text-gray-300">
+    <li>Supersedes original STP (802.1D) while keeping backward compatibility.</li>
+    <li>Uses mostly same terminology and spanning tree algorithm as STP.</li>
+    <li>Significantly faster convergence (milliseconds), alternate ports can quickly switch to forwarding.</li>
+    <li><strong>Rapid PVST+</strong>: Cisco’s per-VLAN implementation of RSTP.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">RSTP Port States and Port Roles</h3>
+  <p class="mb-3 text-gray-300">
+    RSTP has only <strong>three port states</strong> by merging STP’s disabled, blocking, and listening into a single <em>discarding</em> state.
+  </p>
+  <p class="mb-3 text-gray-300">
+    Root ports and designated ports are the same as in STP. However, two port roles replace the blocked state:
+  </p>
+  <ul class="list-disc pl-5 space-y-2 text-gray-300">
+    <li><strong>Alternate port:</strong> Has an alternate path to the root bridge.</li>
+    <li><strong>Backup port:</strong> Backup for shared medium (e.g., hub), less common today.</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">PortFast and BPDU Guard</h3>
+  <ul class="list-disc pl-5 space-y-2 text-gray-300">
+    <li>Ports normally spend 30 seconds (15s listening + 15s learning) before forwarding, causing DHCP timeout issues.</li>
+    <li><strong>PortFast</strong> skips this delay on access ports, immediately forwarding traffic.</li>
+    <li>PortFast must not be enabled on switch-to-switch ports to avoid loops.</li>
+    <li><strong>BPDU Guard</strong> disables a PortFast-enabled port immediately if a BPDU is received, preventing loops. Admin must manually re-enable.</li>
+  </ul>
+</div>
+<h2 class="text-2xl font-bold text-indigo-600 mb-4">Alternatives to STP and Modern Network Design</h2>
+
+<div class="bg-gray-900 text-gray-200 p-5 rounded-lg mb-6 border border-indigo-700">
+  <ul class="list-disc pl-6 space-y-3">
+    <li>Ethernet LANs evolved from simple switch-router connections to hierarchical designs with access, distribution, and core layers, often with hundreds of switches and VLANs.</li>
+    <li>STP has been enhanced through RSTP and MSTP to manage redundancy but lacks the fast, predictable convergence of Layer 3 routing.</li>
+    <li>Layer 3 routing protocols allow redundant paths and loops without blocking ports, enabling better convergence and efficiency.</li>
+    <li>Many modern networks adopt Layer 3 links between access and distribution switches, restricting Layer 2 to the access layer only.</li>
+  </ul>
+</div>
