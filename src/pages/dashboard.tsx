@@ -1,8 +1,8 @@
-// pages/dashboard.tsx
 'use client'
 
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 export default function Dashboard() {
   const router = useRouter()
@@ -43,15 +43,25 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="p-6 sm:p-10 text-white bg-gray-900 min-h-screen">
-      <h1 className="text-4xl font-extrabold text-cyan-400 mb-4">📚 CyberSec Course Notes</h1>
-      <p className="mb-10 text-lg text-green-400 italic">{greeting}</p>
+    <main className="bg-gray-900 text-white min-h-screen p-6 sm:p-10">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-center mb-12"
+      >
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-cyan-400 mb-3">📚 CyberSec Course Notes</h1>
+        <p className="text-lg sm:text-xl text-green-400 italic">{greeting}</p>
+      </motion.div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {courses.map((course) => (
-          <div
+      <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {courses.map((course, i) => (
+          <motion.div
             key={course.name}
-            className="border border-cyan-600 rounded-lg p-5 bg-gray-800 hover:shadow-xl hover:border-cyan-400 transition duration-300"
+            className="border border-cyan-600 rounded-lg p-5 bg-gray-800 hover:shadow-2xl hover:border-cyan-400 transition duration-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1, duration: 0.4 }}
           >
             <h2 className="text-2xl font-semibold text-cyan-300 mb-2">{course.name}</h2>
             <p className="mb-4">
@@ -89,24 +99,30 @@ export default function Dashboard() {
             {!course.link && (
               <span className="text-sm text-gray-400 italic">🚧 Coming Soon</span>
             )}
-          </div>
+          </motion.div>
         ))}
-      </div>
-
-      <section className="mt-16">
-        <h2 className="text-2xl font-bold text-cyan-400 mb-4">🤝 Support the Author</h2>
-        <div className="flex flex-wrap gap-4 text-sm">
-          <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-400">LinkedIn</a>
-          <a href="https://facebook.com/your-page" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-300">Facebook</a>
-          <a href="https://medium.com/@yourprofile" target="_blank" rel="noopener noreferrer" className="hover:underline text-yellow-300">Medium</a>
-          <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="hover:underline text-white">GitHub</a>
-          <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer" className="hover:underline text-sky-300">Twitter</a>
-        </div>
       </section>
 
-      <footer className="mt-16 text-sm text-gray-500 text-center">
+      <motion.section
+        className="mt-20 text-center"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
+        <h2 className="text-2xl font-bold text-cyan-400 mb-4">🤝 Support the Author</h2>
+        <div className="flex justify-center flex-wrap gap-4 text-sm">
+          <a href="https://www.linkedin.com/in/mohamed-yousry-elsayed-mahmoud/" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-400">LinkedIn</a>
+          <a href="https://www.facebook.com/medomedo54665487965464846687548976354968765463487" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-300">Facebook</a>
+          <a href="https://medium.com/@cfmohammed24" target="_blank" rel="noopener noreferrer" className="hover:underline text-yellow-300">Medium</a>
+          <a href="https://github.com/Ro0tReaper/" target="_blank" rel="noopener noreferrer" className="hover:underline text-white">GitHub</a>
+          <a href="https://x.com/0xm03180050?s=21" target="_blank" rel="noopener noreferrer" className="hover:underline text-sky-300">Twitter</a>
+        </div>
+      </motion.section>
+
+      <footer className="mt-20 text-sm text-gray-500 text-center">
         &copy; 2025 CyberSec Notes. All rights reserved.
       </footer>
-    </div>
+    </main>
   )
 }
