@@ -1,1 +1,78 @@
-underconstruction
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Module 16: Static Route Troubleshooting</h2>
+
+<!-- 16.1 Packet Processing with Static Routes -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">16.1 – Packet Processing with Static Routes</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Source Host:</strong> Sends packet to default gateway (router).</li>
+    <li><strong>Router Processing:</strong> Decapsulates packet, checks routing table, uses static/default route, or drops packet if unmatched.</li>
+    <li><strong>Intermediate Routers:</strong> Repeat the same process (encapsulation → lookup → forward).</li>
+    <li><strong>Destination Router:</strong> Matches connected network, uses ARP for MAC, encapsulates, and forwards.</li>
+  </ul>
+</div>
+
+<!-- 16.2 Troubleshoot IPv4 Static and Default Routes -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">16.2 – Troubleshoot IPv4 Static and Default Routes</h3>
+
+  <p class="mb-2 text-gray-300 font-semibold">Common Failure Scenarios:</p>
+  <ul class="list-disc pl-6 space-y-1">
+    <li>Interface failure</li>
+    <li>ISP link drops</li>
+    <li>Network congestion</li>
+    <li>Misconfigured static routes</li>
+  </ul>
+
+  <p class="mt-4 mb-2 text-gray-300 font-semibold">Critical Troubleshooting Commands:</p>
+  <table class="w-full text-left border-collapse border border-cyan-700 mb-4">
+    <thead>
+      <tr class="bg-cyan-700 text-gray-100">
+        <th class="border border-cyan-600 px-3 py-2">Command</th>
+        <th class="border border-cyan-600 px-3 py-2">Purpose</th>
+      </tr>
+    </thead>
+    <tbody class="text-gray-300">
+      <tr class="odd:bg-gray-900 even:bg-gray-800">
+        <td class="border border-cyan-600 px-3 py-2">ping / ping &lt;ip&gt;</td>
+        <td class="border border-cyan-600 px-3 py-2">Verify end-to-end Layer 3 connectivity</td>
+      </tr>
+      <tr class="odd:bg-gray-900 even:bg-gray-800">
+        <td class="border border-cyan-600 px-3 py-2">traceroute &lt;ip&gt;</td>
+        <td class="border border-cyan-600 px-3 py-2">Map path to destination; locate packet drops</td>
+      </tr>
+      <tr class="odd:bg-gray-900 even:bg-gray-800">
+        <td class="border border-cyan-600 px-3 py-2">show ip route</td>
+        <td class="border border-cyan-600 px-3 py-2">Check if static/default routes are correct</td>
+      </tr>
+      <tr class="odd:bg-gray-900 even:bg-gray-800">
+        <td class="border border-cyan-600 px-3 py-2">show ip interface brief</td>
+        <td class="border border-cyan-600 px-3 py-2">Check interface status (up/up) and IPs</td>
+      </tr>
+      <tr class="odd:bg-gray-900 even:bg-gray-800">
+        <td class="border border-cyan-600 px-3 py-2">show cdp neighbors</td>
+        <td class="border border-cyan-600 px-3 py-2">Validate Layer 1/2 links to neighbor devices</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="mb-2 text-gray-300 font-semibold">Troubleshooting Example:</p>
+  <ul class="list-disc pl-6 space-y-1">
+    <li>Symptom: PC1 can't reach PC3.</li>
+    <li>Ping from PC1 to PC3 fails → ping from R1 to R2 succeeds → ping from R1 to R3 succeeds.</li>
+    <li>Check R2 static route → misconfigured.</li>
+  </ul>
+
+  <pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto">
+R2(config)# no ip route 192.168.2.0 255.255.255.0 192.168.1.1
+R2(config)# ip route 172.16.3.0 255.255.255.0 172.16.2.1
+  </pre>
+</div>
+
+<!-- Summary -->
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-4 rounded-lg border border-cyan-700 mb-6">
+  <ul class="list-disc pl-6 space-y-1">
+    <li><strong>Packet Processing:</strong> Static/default routes direct forwarding; ARP resolves destination MAC.</li>
+    <li><strong>Troubleshooting:</strong> Use ping, traceroute, show ip route, and correct misconfigurations.</li>
+    <li><strong>Best Practice:</strong> Always verify static routes after configuration changes!</li>
+  </ul>
+</div>
