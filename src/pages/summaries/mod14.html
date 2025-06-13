@@ -1,1 +1,133 @@
-underconstruction
+
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Module 14: Routing Concepts</h2>
+
+<!-- 14.1 Path Determination -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">14.1 – Path Determination</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Router Functions:</strong> Determine best path using routing tables and forward packets to destination (direct or next-hop).</li>
+    <li><strong>Best Path:</strong> Based on longest prefix match.</li>
+    <li><strong>IPv4 Example:</strong> 172.16.0.10 matches 172.16.0.0/26 (longest 26-bit match).</li>
+    <li><strong>IPv6 Example:</strong> 2001:db8:c000::99 matches 2001:db8:c000::/48.</li>
+    <li><strong>Routing Table Sources:</strong>
+      <ul class="list-circle pl-6">
+        <li>Directly Connected: When interface is active.</li>
+        <li>Static Routes: Manually defined.</li>
+        <li>Dynamic: OSPF, EIGRP, etc.</li>
+        <li>Default Route: 0.0.0.0/0 (IPv4), ::/0 (IPv6).</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- 14.2 Packet Forwarding -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">14.2 – Packet Forwarding</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Process:</strong> Packet enters → check destination → match longest prefix → forward via egress → drop if no match.</li>
+    <li><strong>Mechanisms:</strong>
+      <ul class="list-circle pl-6">
+        <li>Process Switching (CPU-based, slow).</li>
+        <li>Fast Switching (first packet cached).</li>
+        <li>CEF: Fastest, prebuilt FIB/adjacency tables.</li>
+      </ul>
+    </li>
+    <li><strong>End-to-End:</strong> Layer 2 encapsulation (Ethernet, PPP).</li>
+  </ul>
+</div>
+
+<!-- 14.3 Basic Router Configuration -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">14.3 – Basic Router Configuration</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Essential Commands:</strong></li>
+  </ul>
+  <pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto">
+Router> enable
+Router# configure terminal
+Router(config)# hostname R1
+R1(config)# interface GigabitEthernet0/0/0
+R1(config-if)# ip address 10.0.1.1 255.255.255.0
+R1(config-if)# ipv6 address 2001:db8:acad:1::1/64
+R1(config-if)# no shutdown
+  </pre>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Verification:</strong> <code>show ip interface brief</code>, <code>ping</code>, <code>traceroute</code>, <code>show running-config</code>.</li>
+    <li><strong>Output Filtering:</strong> <code>show ip route | include 10.0.1.0</code></li>
+  </ul>
+</div>
+
+<!-- 14.4 Routing Table -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">14.4 – IP Routing Table</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li>Table entry format: Route source(C,L,S,O,*) -> Destination network -> Administrative distance -> Metric -> Next Hop(Router) -> Route timestamp -> Exit interface </li>
+    <li><strong>Route Sources & Codes:</strong> C = Connected, L = Local, S = Static, O = OSPF</li>
+    <li><strong>Routing Principles:</strong> Each router chooses paths independently; return path may differ.</li>
+    <li><strong>IPv4:</strong> Classful hierarchy (parent/child). <strong>IPv6:</strong> Flat route structure.</li>
+    <li><strong>Administrative Distance (AD) (the lower the better):</strong></li>
+  </ul>
+  <table class="w-full text-sm text-gray-200 border border-cyan-800 mb-6">
+    <thead class="bg-cyan-800 text-white">
+      <tr>
+        <th class="px-4 py-2 border border-cyan-700">Route Source</th>
+        <th class="px-4 py-2 border border-cyan-700">AD</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="px-4 py-2 border border-cyan-700">Connected</td><td class="px-4 py-2 border border-cyan-700">0</td></tr>
+      <tr><td class="px-4 py-2 border border-cyan-700">Static</td><td class="px-4 py-2 border border-cyan-700">1</td></tr>
+      <tr><td class="px-4 py-2 border border-cyan-700">OSPF</td><td class="px-4 py-2 border border-cyan-700">110</td></tr>
+      <tr><td class="px-4 py-2 border border-cyan-700">RIP</td><td class="px-4 py-2 border border-cyan-700">120</td></tr>
+    </tbody>
+  </table>
+  <!-- <img src="/public/image.png" alt="routing table example"> -->
+</div>
+
+<!-- 14.5 Static vs Dynamic Routing -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">14.5 – Static vs. Dynamic Routing</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Static Routes:</strong> Used for stub networks, default routes, specific path control.
+      <ul class="list-circle pl-6">
+        <li>Pros: Secure, no bandwidth use.</li>
+        <li>Cons: Manual updates, limited scalability.</li>
+      </ul>
+    </li>
+    <li><strong>Dynamic Routing:</strong>
+      <ul class="list-circle pl-6">
+        <li><strong>IGPs:</strong> OSPF, EIGRP, RIP, IS-IS</li>
+        <li><strong>EGPs:</strong> BGP</li>
+        <li><strong>Metrics:</strong> RIP (hop count), OSPF (cost), EIGRP (composite = slowest bandwidth + delay values + load + reliability.)</li>
+        <li><strong>Pros:</strong> Auto adaptation, scalable</li>
+        <li><strong>Cons:</strong> CPU/bandwidth intensive</li>
+      </ul>
+    </li>
+    <li><strong>Load Balancing:</strong> OSPF supports equal-cost, EIGRP supports unequal-cost balancing.</li>
+  </ul>
+</div>
+
+<!-- Technical Details -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Key Technical Details</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Longest Match:</strong> Based on prefix length, not subnet mask.</li>
+    <li><strong>CEF:</strong> Uses FIB + Adjacency Table for fast forwarding.</li>
+    <li><strong>IPv6 Routing:</strong> Simpler, uses link-local for next-hop, no classful rules.</li>
+    <li><strong>Route Installation:</strong> Only route with best AD is added.</li>
+    <li><strong>Protocol Evolution:</strong> RIPv1 (1988), EIGRP (1992), OSPFv3 (IPv6), BGP-MP.</li>
+  </ul>
+</div>
+
+<!-- Summary -->
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-4 rounded-lg border border-cyan-700 mb-6">
+  <ul class="list-disc pl-6 space-y-1">
+    <li><strong>Path Determination:</strong> Longest match wins (prefix-based).</li>
+    <li><strong>Forwarding:</strong> CEF preferred for speed and efficiency.</li>
+    <li><strong>Routing Tables:</strong> Include connected, static, and dynamic entries.</li>
+    <li><strong>Static Routing:</strong> Ideal for small/simple networks.</li>
+    <li><strong>Dynamic Routing:</strong> IGPs (RIP, OSPF, EIGRP), EGP (BGP).</li>
+    <li><strong>Load Balancing:</strong> Equal (OSPF), Unequal (EIGRP).</li>
+  </ul>
+</div>
+

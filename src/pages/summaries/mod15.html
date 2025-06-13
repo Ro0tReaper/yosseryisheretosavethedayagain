@@ -1,1 +1,116 @@
-underconstruction
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Module 15: Static Routes</h2>
+
+<!-- 15.1 Static Routes -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">15.1 – Static Routes</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Types:</strong> Standard, Default, Floating, Summary (for IPv4/IPv6).</li>
+    <li><strong>Next-Hop Options:</strong>
+      <ul class="list-disc pl-6">
+        <li><strong>Next-Hop Route:</strong> Only next-hop IP specified.</li>
+        <li><strong>Directly Connected:</strong> Only exit interface specified (ideal for point-to-point).</li>
+        <li><strong>Fully Specified:</strong> Both next-hop IP and exit interface (required for multi-access).</li>
+      </ul>
+    </li>
+    <li><strong>Command Syntax:</strong></li>
+    <li><code>ip route &lt;network&gt; &lt;mask&gt; {next-hop-ip | exit-intf} [distance]</code></li>
+    <li><code>ipv6 route &lt;prefix&gt;/&lt;length&gt; {next-hop-ip | exit-intf} [distance]</code></li>
+  </ul>
+</div>
+
+<!-- 15.2 Configure IP Static Routes -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">15.2 – Configure IP Static Routes</h3>
+  <p class="mb-2 text-gray-300 font-semibold">Next-Hop Routes:</p>
+  <pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto">
+R1(config)# ip route 192.168.1.0 255.255.255.0 172.16.2.2
+R1(config)# ipv6 route 2001:db8:cafe:1::/64 2001:db8:acad:2::2
+  </pre>
+  <p class="mb-2 text-gray-300 font-semibold">Directly Connected Routes:</p>
+  <pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto">
+R1(config)# ip route 192.168.1.0 255.255.255.0 s0/1/0
+R1(config)# ipv6 route 2001:db8:cafe:1::/64 s0/1/0
+  </pre>
+  <p class="mb-2 text-gray-300 font-semibold">Fully Specified Routes (IPv6 link-local):</p>
+  <pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto">
+R1(config)# ipv6 route 2001:db8:acad:1::/64 s0/1/0 fe80::2
+  </pre>
+</div>
+
+<!-- 15.3 Configure IP Default Static Routes -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">15.3 – Configure IP Default Static Routes</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Purpose:</strong> Gateway of Last Resort for unmatched traffic.</li>
+    <li><strong>Commands:</strong></li>
+  </ul>
+  <pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto">
+R1(config)# ip route 0.0.0.0 0.0.0.0 172.16.2.2
+R1(config)# ipv6 route ::/0 2001:db8:acad:2::2
+  </pre>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Verification:</strong> 
+      <code>show ip route static</code> (look for *), 
+      <code>show ipv6 route static</code> (check for ::/0).
+    </li>
+  </ul>
+</div>
+
+<!-- 15.4 Floating Static Routes -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">15.4 – Configure Floating Static Routes</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Purpose:</strong> Backup path when primary route fails (higher AD).</li>
+    <li><strong>Example:</strong></li>
+  </ul>
+  <pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto">
+R1(config)# ip route 0.0.0.0 0.0.0.0 10.10.10.2 5
+R1(config)# ipv6 route ::/0 2001:db8:feed:10::2 5
+  </pre>
+  <p class="mt-2">Shut down primary link to activate backup route in table.</p>
+</div>
+
+<!-- 15.5 Configure Static Host Routes -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">15.5 – Configure Static Host Routes</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>IPv4 Host Route (/32):</strong></li>
+  </ul>
+  <pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto">
+Branch(config)# ip route 209.165.200.238 255.255.255.255 198.51.100.2
+  </pre>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>IPv6 Host Route (/128):</strong></li>
+  </ul>
+  <pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto">
+Branch(config)# ipv6 route 2001:db8:acad:2::238/128 2001:db8:acad:1::2
+Branch(config)# ipv6 route 2001:db8:acad:2::238/128 s0/1/0 fe80::2
+  </pre>
+  <p class="mt-2">Interface is required when using link-local next-hop.</p>
+</div>
+
+<!-- Technical Notes -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Key Technical Details</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>AD:</strong> Static = 1 (default), Floating = set manually (e.g., 5).</li>
+    <li><strong>IPv6:</strong> Fully specified routes required for link-local addresses.</li>
+    <li><strong>Verification:</strong>
+      <code>show ip route static | begin Gateway</code>,
+      <code>show ipv6 route static</code>,
+      <code>show running-config | section ip route</code>
+    </li>
+    <li><strong>Host Routes:</strong> Used to override default local routes for specific devices.</li>
+  </ul>
+</div>
+
+<!-- Summary -->
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-4 rounded-lg border border-cyan-700 mb-6">
+  <ul class="list-disc pl-6 space-y-1">
+    <li><strong>Static Route Types:</strong> Next-hop, directly connected, fully specified.</li>
+    <li><strong>Default Routes:</strong> 0.0.0.0/0 (IPv4), ::/0 (IPv6) for unmatched traffic.</li>
+    <li><strong>Floating Static:</strong> Backup paths with higher AD.</li>
+    <li><strong>Host Routes:</strong> Specific routing for individual hosts (/32 or /128).</li>
+    <li><strong>IPv6 Nuances:</strong> Fully specified routes required for link-local next-hops.</li>
+  </ul>
+</div>
