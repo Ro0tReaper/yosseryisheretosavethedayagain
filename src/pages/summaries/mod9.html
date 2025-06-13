@@ -1,1 +1,143 @@
-underconstruction
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">First Hop Redundancy Protocols (FHRPs)</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li><strong class="text-cyan-400">Default Gateway Problem:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Single gateway = single point of failure</li>
+        <li>Hosts lose connectivity if gateway fails</li>
+      </ul>
+    </li>
+    
+    <li><strong class="text-cyan-400">Virtual Router Concept:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Multiple physical routers appear as one virtual router</li>
+        <li>Shared virtual IP and MAC address</li>
+        <li>Hosts ARP for virtual router's MAC</li>
+      </ul>
+    </li>
+
+    <li><strong class="text-cyan-400">Failover Process:</strong>
+      <ol class="list-decimal pl-6 mt-1 space-y-1">
+        <li>Standby stops receiving Hello messages</li>
+        <li>Standby assumes active role</li>
+        <li>Transparent to end hosts</li>
+      </ol>
+    </li>
+  </ul>
+</div>
+
+<h3 class="text-xl font-bold text-cyan-400 mb-3">FHRP Protocol Options</h3>
+<table class="w-full text-sm text-gray-200 border border-cyan-800 mb-6">
+  <thead class="bg-cyan-800 text-white">
+    <tr>
+      <th class="px-4 py-3 border border-cyan-700">Protocol</th>
+      <th class="px-4 py-3 border border-cyan-700">Type</th>
+      <th class="px-4 py-3 border border-cyan-700">Key Features</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700">HSRP</td>
+      <td class="px-4 py-3 border border-cyan-700">Cisco IPv4</td>
+      <td class="px-4 py-3 border border-cyan-700">
+        <ul class="list-disc pl-5">
+          <li>Active/standby model</li>
+          <li>Virtual MAC: 0000.0C07.ACXX</li>
+        </ul>
+      </td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700">VRRP</td>
+      <td class="px-4 py-3 border border-cyan-700">Standard IPv4/IPv6</td>
+      <td class="px-4 py-3 border border-cyan-700">
+        <ul class="list-disc pl-5">
+          <li>Multi-vendor compatible</li>
+          <li>Master/backup model</li>
+        </ul>
+      </td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700">GLBP</td>
+      <td class="px-4 py-3 border border-cyan-700">Cisco IPv4/IPv6</td>
+      <td class="px-4 py-3 border border-cyan-700">
+        <ul class="list-disc pl-5">
+          <li>Load balancing capability</li>
+          <li>AVG/AVF roles</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Exam Tip:</strong> HSRP uses UDP port 1985, VRRP uses IP protocol 112.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">HSRP Operation</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <ul class="list-disc pl-6 space-y-3">
+    <li><strong class="text-cyan-400">Purpose:</strong> Cisco-proprietary first-hop redundancy for IPv4/IPv6.</li>
+    <li><strong class="text-cyan-400">Roles:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li><strong>Active:</strong> Forwards traffic using virtual IP/MAC.</li>
+        <li><strong>Standby:</strong> Takes over if active fails.</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Virtual MAC:</strong> 0000.0C07.ACXX (XX = group number).</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Election Process</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Priority:</strong> Default: 100, Range: 0–255. Highest becomes active.</li>
+    <li><strong class="text-cyan-400">Tiebreaker:</strong> Highest IPv4 address (if priorities are equal).</li>
+    <li><strong class="text-cyan-400">Preemption:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Disabled by default; must be enabled with <code>standby preempt</code>.</li>
+        <li>Only takes over if higher priority (not just higher IP).</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<h3 class="text-xl font-bold text-cyan-400 mb-3">HSRP States</h3>
+<table class="w-full text-sm text-gray-200 border border-cyan-800 mb-6">
+  <thead class="bg-cyan-800 text-white">
+    <tr>
+      <th class="px-4 py-3 border border-cyan-700">State</th>
+      <th class="px-4 py-3 border border-cyan-700">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700">Initial</td>
+      <td class="px-4 py-3 border border-cyan-700">Interface down or config change.</td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700">Learn</td>
+      <td class="px-4 py-3 border border-cyan-700">Waiting to learn virtual IP.</td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700">Listen</td>
+      <td class="px-4 py-3 border border-cyan-700">Knows virtual IP; not active/standby.</td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700">Speak</td>
+      <td class="px-4 py-3 border border-cyan-700">Sends hellos; participates in election.</td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700">Standby</td>
+      <td class="px-4 py-3 border border-cyan-700">Ready to take over if active fails.</td>
+    </tr>
+    <tr class="border-t border-cyan-700">
+      <td class="px-4 py-3 border border-cyan-700">Active</td>
+      <td class="px-4 py-3 border border-cyan-700">Forwarding traffic via virtual IP.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Timers:</strong> Default hello = <code>3s</code>, hold = <code>10s</code>. Avoid setting hello &lt; 1s or hold &lt; 4s to maintain stability.</p>
+</div>
