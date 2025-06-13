@@ -1,1 +1,106 @@
-underconstruction
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Module 13: WLAN Configuration</h2>
+
+<!-- 13.1 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">13.1 – Remote Site WLAN Configuration</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Wireless Routers:</strong> Combine AP, switch, router, NAT, DHCP, and QoS.</li>
+    <li>Always change default credentials (e.g., admin/admin).</li>
+    <li><strong>Setup Steps:</strong>
+      <ul class="list-circle pl-6">
+        <li>Change admin password, configure DHCP, renew IP.</li>
+        <li>Set SSID, select non-overlapping channel, use WPA2 Personal with passphrase.</li>
+      </ul>
+    </li>
+    <li><strong>Extended Coverage:</strong>
+      <ul class="list-circle pl-6">
+        <li>Add APs with same SSID but different 2.4 GHz channels (1, 6, 11).</li>
+      </ul>
+    </li>
+    <li><strong>Advanced Features:</strong>
+      <ul class="list-circle pl-6">
+        <li><strong>NAT:</strong> Translates private to public IP for internet.</li>
+        <li><strong>QoS:</strong> Prioritizes voice and video traffic.</li>
+        <li><strong>Port Forwarding:</strong> Opens specific ports for apps/services.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- 13.2 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">13.2 – Configure a Basic WLAN on the WLC</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Topology:</strong> Lightweight APs managed via CAPWAP (no manual config).</li>
+    <li>WLC trunk interfaces carry VLANs to APs.</li>
+    <li><strong>Steps:</strong>
+      <ul class="list-circle pl-6">
+        <li>Log in to WLC GUI (default IP/creds).</li>
+        <li>Create WLAN: Set SSID, enable, link to VLAN interface.</li>
+        <li>Use WPA2-PSK with AES encryption.</li>
+        <li>Monitor clients and traffic via WLC interface.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- 13.3 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">13.3 – Configure a WPA2 Enterprise WLAN on the WLC</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Prerequisites:</strong>
+      <ul class="list-circle pl-6">
+        <li>RADIUS server for AAA (e.g., FreeRADIUS).</li>
+        <li>SNMP server for trap monitoring.</li>
+      </ul>
+    </li>
+    <li><strong>Steps:</strong>
+      <ul class="list-circle pl-6">
+        <li>Create <code>vlan5</code> with DHCP scope (192.168.5.0/24).</li>
+        <li>Bind WLAN to vlan5, enable WPA2-Enterprise (AES + 802.1X).</li>
+        <li>Link RADIUS server (IP + shared secret).</li>
+        <li>Verify via client connections and RADIUS logs.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- 13.4 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">13.4 – Troubleshoot WLAN Issues</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Troubleshooting Steps:</strong>
+      <ul class="list-circle pl-6">
+        <li>Identify issue (e.g., no connectivity).</li>
+        <li>Check client settings: IP config, NIC driver, security.</li>
+        <li>Inspect AP/WLC: Power, cabling, channel overlap.</li>
+      </ul>
+    </li>
+    <li><strong>Fixing Slow Networks:</strong>
+      <ul class="list-circle pl-6">
+        <li>Upgrade legacy 802.11b/g clients.</li>
+        <li>Split traffic: 5 GHz for streaming, 2.4 GHz for basic use.</li>
+        <li>Apply firmware updates to fix bugs and boost performance.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- 13.5 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">13.5 – Module Summary</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Remote Sites:</strong> Wireless routers with NAT/QoS, mesh for extended coverage.</li>
+    <li><strong>WLC Management:</strong> Centralized AP/VLAN/RADIUS control.</li>
+    <li><strong>Security:</strong> WPA2-Enterprise for enterprises, WPA2-PSK for homes.</li>
+    <li><strong>Troubleshooting Flow:</strong> Clients → AP/WLC → Optimize traffic & signal.</li>
+    <li><strong>Key Points:</strong>
+      <ul class="list-circle pl-6">
+        <li>SNMP & RADIUS: Crucial for enterprise monitoring/authentication.</li>
+        <li>DHCP Scope: VLAN-specific addressing via WLC.</li>
+        <li>FlexConnect: APs switch locally when WLC is unreachable.</li>
+        <li>Firmware: Regular updates patch vulnerabilities and bugs.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
