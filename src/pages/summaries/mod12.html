@@ -1,1 +1,189 @@
-underconstruction
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Module 12: WLAN Concepts</h2>
+
+<!-- 12.1 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">12.1 – Introduction to Wireless</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li>WLANs provide wireless access for mobility and adaptability in homes, offices, and campuses.</li>
+    <li>Wireless Types:
+      <ul class="list-circle pl-6">
+        <li><strong>WPAN:</strong> Short-range (Bluetooth, Zigbee)</li>
+        <li><strong>WLAN:</strong> Medium-range (Wi-Fi)</li>
+        <li><strong>WMAN:</strong> City-wide (WiMAX)</li>
+        <li><strong>WWAN:</strong> Global (Cellular, Satellite)</li>
+      </ul>
+    </li>
+    <li>Technologies: Bluetooth (BR/EDR, BLE), WiMAX, GSM/CDMA, Satellite (needs line of sight)</li>
+    <li>802.11 Standards:
+      <ul class="list-circle pl-6">
+        <li>Vary by frequency (2.4 vs 5 GHz), speed (e.g., 802.11ac up to 1.3 Gb/s), compatibility</li>
+        <li>802.11ax (Wi-Fi 6): Adds support for 1 GHz and 7 GHz bands</li>
+      </ul>
+    </li>
+    <li>Frequencies:
+      <ul class="list-circle pl-6">
+        <li><strong>2.4 GHz:</strong> Longer range, more interference (802.11b/g/n/ax)</li>
+        <li><strong>5 GHz:</strong> Faster, less congestion (802.11a/n/ac/ax)</li>
+      </ul>
+    </li>
+    <li>Standards Bodies:
+      <ul class="list-circle pl-6">
+        <li><strong>ITU:</strong> Regulates spectrum</li>
+        <li><strong>IEEE:</strong> Defines 802.11</li>
+        <li><strong>Wi-Fi Alliance:</strong> Ensures interoperability</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- 12.2 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">12.2 – WLAN Components</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Wireless NIC:</strong> Integrated or USB adapters for wireless access.</li>
+    <li><strong>Home Routers:</strong> Combine AP, switch, and router functions.</li>
+    <li><strong>Access Points:</strong>
+      <ul class="list-circle pl-6">
+        <li><strong>Autonomous:</strong> Manually configured standalone APs</li>
+        <li><strong>Controller-based:</strong> Lightweight APs managed by WLC using CAPWAP</li>
+      </ul>
+    </li>
+    <li><strong>Antennas:</strong>
+      <ul class="list-circle pl-6">
+        <li><strong>Omnidirectional:</strong> 360° signal (e.g., home/office)</li>
+        <li><strong>Directional:</strong> Focused signal (e.g., Yagi, parabolic)</li>
+        <li><strong>MIMO:</strong> Multiple antennas (up to 8) for bandwidth</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- 12.3 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">12.3 – WLAN Operation</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Modes:</strong>
+      <ul class="list-circle pl-6">
+        <li>Infrastructure (AP-based)</li>
+        <li>Ad hoc (peer-to-peer)</li>
+        <li>Tethering (mobile hotspot)</li>
+      </ul>
+    </li>
+    <li><strong>Topologies:</strong>
+      <ul class="list-circle pl-6">
+        <li>BSS (Basic Service Set): Single AP</li>
+        <li>ESS (Extended Service Set): Multiple APs on wired LAN</li>
+      </ul>
+    </li>
+    <li><strong>CSMA/CA:</strong> Uses RTS/CTS for collision avoidance</li>
+    <li><strong>Client Association:</strong> Discover → Authenticate → Associate</li>
+    <li><strong>Scanning:</strong>
+      <ul class="list-circle pl-6">
+        <li>Passive: AP sends beacons</li>
+        <li>Active: Client sends probes</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- 12.4 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">12.4 – CAPWAP Operation</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>CAPWAP:</strong> Protocol for WLC to manage APs with IPv4/IPv6 and DTLS encryption.</li>
+    <li><strong>Split MAC:</strong>
+      <ul class="list-circle pl-6">
+        <li>AP handles: Beacons, acknowledgments, encryption</li>
+        <li>WLC handles: Authentication, roaming, translation</li>
+      </ul>
+    </li>
+    <li><strong>DTLS:</strong> Encrypts control plane; data encryption requires license</li>
+    <li><strong>FlexConnect:</strong>
+      <ul class="list-circle pl-6">
+        <li>Connected Mode: WLC manages</li>
+        <li>Standalone Mode: AP switches locally if WLC unavailable</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- 12.5 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">12.5 – Channel Management</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Interference Mitigation:</strong>
+      <ul class="list-circle pl-6">
+        <li>DSSS: 802.11b</li>
+        <li>FHSS: Legacy 802.11</li>
+        <li>OFDM: 802.11a/g/n/ac</li>
+      </ul>
+    </li>
+    <li><strong>Channel Planning:</strong>
+      <ul class="list-circle pl-6">
+        <li>2.4 GHz: Non-overlapping channels 1, 6, 11</li>
+        <li>5 GHz: More 20 MHz-wide channels (e.g., 36, 48, 60)</li>
+      </ul>
+    </li>
+    <li><strong>Deployment Considerations:</strong> Coverage, user density, transmit power</li>
+  </ul>
+</div>
+
+<!-- 12.6 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">12.6 – WLAN Threats</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Main Threats:</strong>
+      <ul class="list-circle pl-6">
+        <li>Data interception (unencrypted traffic)</li>
+        <li>Rogue APs (unauthorized MITM)</li>
+        <li>DoS via interference or malicious intent</li>
+        <li>Evil Twin (fake AP with same SSID)</li>
+      </ul>
+    </li>
+    <li><strong>Countermeasures:</strong>
+      <ul class="list-circle pl-6">
+        <li>Monitor for rogue APs</li>
+        <li>Use encryption and authentication</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- 12.7 -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">12.7 – Secure WLANs</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong>Early Protections:</strong>
+      <ul class="list-circle pl-6">
+        <li>SSID Cloaking (not effective alone)</li>
+        <li>MAC Filtering (easily bypassed)</li>
+      </ul>
+    </li>
+    <li><strong>Authentication:</strong>
+      <ul class="list-circle pl-6">
+        <li>Open: No password (public)</li>
+        <li>Shared Key:
+          <ul class="list-disc pl-6">
+            <li>WEP (insecure)</li>
+            <li>WPA (TKIP)</li>
+            <li>WPA2 (AES)</li>
+            <li>WPA3 (SAE -- stops brute forces/OWE -- encrypt all wireless traffic.)</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><strong>Encryption:</strong>
+      <ul class="list-circle pl-6">
+        <li>TKIP: Legacy (WPA)</li>
+        <li>AES/CCMP: WPA2</li>
+        <li>SAE/DPP: WPA3</li>
+      </ul>
+    </li>
+    <li><strong>Enterprise Security:</strong>
+      <ul class="list-circle pl-6">
+        <li>802.1X/EAP with RADIUS</li>
+        <li>Requires IP, UDP ports 1812(Authentication)/1813(Accounting) also can be 1645/1646, shared key</li>
+      </ul>
+    </li>
+  </ul>
+</div>
