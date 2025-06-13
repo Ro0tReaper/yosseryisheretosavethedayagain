@@ -1,1 +1,303 @@
-underconstruction
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Modern Network Security</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Common Network Attacks</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">DDoS Attacks:</strong> Zombie networks overwhelm resources</li>
+    <li><strong class="text-cyan-400">Data Breaches:</strong> Theft of confidential information</li>
+    <li><strong class="text-cyan-400">Malware:</strong> Including ransomware like WannaCry</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Security Devices</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">VPN Routers:</strong> Secure remote access</li>
+    <li><strong class="text-cyan-400">NGFWs:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Stateful inspection</li>
+        <li>NGIPS and AMP</li>
+        <li>URL filtering</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">NAC:</strong> Cisco ISE for AAA services</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Endpoint Protection</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Components:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>AMP software</li>
+        <li>Email Security Appliance (ESA)</li>
+        <li>Web Security Appliance (WSA)</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">ESA Functions:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>SMTP monitoring</li>
+        <li>Threat blocking</li>
+        <li>Email encryption</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">WSA Functions:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>URL filtering/categorization</li>
+        <li>Malware scanning</li>
+        <li>Web traffic control</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Security Integration:</strong> Cisco Talos provides real-time threat intelligence to ESA/WSA.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Network Authentication & AAA Security</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Local Authentication Methods</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Basic Password Authentication:</strong> Configured on console/vty/aux ports</li>
+    <li><strong class="text-cyan-400">SSH Authentication:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>More secure remote access</li>
+        <li>Uses local username/password database</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Limitations:</strong> Not scalable, no fallback mechanism</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">AAA Framework Components</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Authentication:</strong> Verifies user identity</li>
+    <li><strong class="text-cyan-400">Authorization:</strong> Controls access privileges</li>
+    <li><strong class="text-cyan-400">Accounting:</strong> Tracks user activities</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Authentication Methods</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Local AAA:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Credentials stored on device</li>
+        <li>Ideal for small networks</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Server-Based AAA:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Centralized credential management</li>
+        <li>Uses RADIUS/TACACS+ protocols</li>
+        <li>Scalable for large networks</li>
+        <li>Good when there are more than one switch/router</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Authorization & Accounting</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Authorization Features:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Automatic after authentication</li>
+        <li>Controls user privileges via attributes(ACLs)</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Accounting Features:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Logs connection times and commands</li>
+        <li>Provides audit trails for security</li>
+        <li>Useful for troubleshooting</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">802.1X Port-Based Authentication</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Components:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Supplicant (client device)</li>
+        <li>Authenticator (switch/AP)</li>
+        <li>Authentication server (RADIUS)</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Function:</strong> Blocks unauthorized devices from accessing LAN ports</li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Security Insight:</strong> Server-based AAA with TACACS+ provides centralized control and detailed command logging for enterprise networks.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Layer 2 Security Vulnerabilities</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">The Layer 2 Weak Link</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li>While Layers 3-7 are protected by firewalls/IPS/VPNs, Layer 2 is often exposed</li>
+    <li><strong class="text-cyan-400">Critical Risk:</strong> Compromising Layer 2 bypasses all upper-layer security</li>
+    <li>Modern threats amplified by BYOD policies and sophisticated attacks</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Common Switch Attack Categories</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">MAC Table Attacks:</strong> Flooding attacks</li>
+    <li><strong class="text-cyan-400">VLAN Attacks:</strong> Hopping, double-tagging</li>
+    <li><strong class="text-cyan-400">DHCP Attacks:</strong> Starvation, spoofing</li>
+    <li><strong class="text-cyan-400">ARP Attacks:</strong> Spoofing, poisoning</li>
+    <li><strong class="text-cyan-400">Spoofing Attacks:</strong> MAC/IP address forgery</li>
+    <li><strong class="text-cyan-400">STP Attacks:</strong> Protocol manipulation</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Layer 2 Mitigation Techniques</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Port Security:</strong> Blocks MAC flooding & DHCP attacks</li>
+    <li><strong class="text-cyan-400">DHCP Snooping:</strong> Prevents starvation/spoofing</li>
+    <li><strong class="text-cyan-400">Dynamic ARP Inspection:</strong> Stops ARP attacks</li>
+    <li><strong class="text-cyan-400">IP Source Guard:</strong> Prevents address spoofing</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Management Protocol Security</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Secure Protocols:</strong> SSH, SCP, SFTP, SSL/TLS</li>
+    <li><strong class="text-cyan-400">Network Design:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Out-of-band management</li>
+        <li>Dedicated management VLAN</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Access Control:</strong> Implement ACLs for management interfaces</li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Security Priority:</strong> Layer 2 vulnerabilities must be addressed first since they can bypass all upper-layer security measures.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Layer 2 Attack Methods & Mitigations</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">MAC Address Table Attack</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">How It's Done:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Floods switch with fake MAC addresses (e.g., using macof tool)</li>
+        <li>Overflows MAC table (8,000+ frames/sec)</li>
+        <li>Forces switch to flood frames to all ports</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Mitigation:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Implement port security</li>
+        <li>Limit learned MAC addresses per port</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">VLAN Hopping Attacks</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">How It's Done:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Host spoofs 802.1Q/DTP signaling</li>
+        <li>Tricks switch into trunking mode</li>
+        <li>Gains access to all VLANs</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Mitigation:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Disable trunking on access ports</li>
+        <li>Manually enable trunk links</li>
+        <li>Restrict native VLAN usage</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">DHCP Attacks</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">How It's Done:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li><strong>Starvation:</strong> Tools like Gobbler lease all IPs</li>
+        <li><strong>Spoofing:</strong> Rogue server gives false:
+          <ul class="list-circle pl-4 mt-1">
+            <li>Gateways</li>
+            <li>DNS servers</li>
+            <li>IP addresses</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Mitigation:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Implement DHCP snooping</li>
+        <li>Authorize legitimate DHCP servers</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">ARP Spoofing</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">How It's Done:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Sends gratuitous ARP Replies</li>
+        <li>Poisons ARP tables with fake MACs</li>
+        <li>Creates man-in-the-middle attacks</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Mitigation:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Dynamic ARP Inspection (DAI)</li>
+        <li>DHCP snooping binding table</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">STP Manipulation</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">How It's Done:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Floods BPDUs with low bridge IDs</li>
+        <li>Becomes unauthorized root bridge</li>
+        <li>Intercepts all switched traffic</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Mitigation:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>BPDU Guard on access ports</li>
+        <li>Root Guard on designated ports</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Pro Tip:</strong> Combine these mitigations with secure management protocols (SSH/SCP) and dedicated management VLANs for complete Layer 2 protection.</p>
+</div>
