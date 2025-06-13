@@ -419,47 +419,50 @@ Switch(config-if)# mls qos trust device cisco-phone</pre>
 </div>
 <h2 class="text-2xl font-bold text-cyan-500 mb-4">DTP Configuration Options</h2>
 
-<table class="w-full text-sm text-gray-200 border border-cyan-800 mb-6">
-  <thead class="bg-cyan-800 text-white">
-    <tr>
-      <th class="px-4 py-3 border border-cyan-700"></th>
-      <th class="px-4 py-3 border border-cyan-700">Dynamic Auto</th>
-      <th class="px-4 py-3 border border-cyan-700">Dynamic Desirable</th>
-      <th class="px-4 py-3 border border-cyan-700">Trunk</th>
-      <th class="px-4 py-3 border border-cyan-700">Access</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="border-t border-cyan-700">
-      <td class="px-4 py-3 border border-cyan-700 font-semibold">Dynamic Auto</td>
-      <td class="px-4 py-3 border border-cyan-700">Access</td>
-      <td class="px-4 py-3 border border-cyan-700">Trunk</td>
-      <td class="px-4 py-3 border border-cyan-700">Trunk</td>
-      <td class="px-4 py-3 border border-cyan-700">Access</td>
-    </tr>
-    <tr class="border-t border-cyan-700">
-      <td class="px-4 py-3 border border-cyan-700 font-semibold">Dynamic Desirable</td>
-      <td class="px-4 py-3 border border-cyan-700">Trunk</td>
-      <td class="px-4 py-3 border border-cyan-700">Trunk</td>
-      <td class="px-4 py-3 border border-cyan-700">Trunk</td>
-      <td class="px-4 py-3 border border-cyan-700">Access</td>
-    </tr>
-    <tr class="border-t border-cyan-700">
-      <td class="px-4 py-3 border border-cyan-700 font-semibold">Trunk</td>
-      <td class="px-4 py-3 border border-cyan-700">Trunk</td>
-      <td class="px-4 py-3 border border-cyan-700">Trunk</td>
-      <td class="px-4 py-3 border border-cyan-700">Trunk</td>
-      <td class="px-4 py-3 border border-cyan-700">Limited connectivity</td>
-    </tr>
-    <tr class="border-t border-cyan-700">
-      <td class="px-4 py-3 border border-cyan-700 font-semibold">Access</td>
-      <td class="px-4 py-3 border border-cyan-700">Access</td>
-      <td class="px-4 py-3 border border-cyan-700">Access</td>
-      <td class="px-4 py-3 border border-cyan-700">Limited connectivity</td>
-      <td class="px-4 py-3 border border-cyan-700">Access</td>
-    </tr>
-  </tbody>
-</table>
+<div class="overflow-x-auto">
+  <table class="min-w-full text-sm text-gray-200 border border-cyan-800 mb-6 table-auto">
+    <thead class="bg-cyan-800 text-white">
+      <tr>
+        <th class="px-4 py-3 border border-cyan-700 text-left whitespace-nowrap"></th>
+        <th class="px-4 py-3 border border-cyan-700 text-left whitespace-nowrap">Dynamic Auto</th>
+        <th class="px-4 py-3 border border-cyan-700 text-left whitespace-nowrap">Dynamic Desirable</th>
+        <th class="px-4 py-3 border border-cyan-700 text-left whitespace-nowrap">Trunk</th>
+        <th class="px-4 py-3 border border-cyan-700 text-left whitespace-nowrap">Access</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-t border-cyan-700">
+        <td class="px-4 py-3 border border-cyan-700 font-semibold whitespace-nowrap">Dynamic Auto</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Access</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Trunk</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Trunk</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Access</td>
+      </tr>
+      <tr class="border-t border-cyan-700">
+        <td class="px-4 py-3 border border-cyan-700 font-semibold whitespace-nowrap">Dynamic Desirable</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Trunk</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Trunk</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Trunk</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Access</td>
+      </tr>
+      <tr class="border-t border-cyan-700">
+        <td class="px-4 py-3 border border-cyan-700 font-semibold whitespace-nowrap">Trunk</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Trunk</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Trunk</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Trunk</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Limited connectivity</td>
+      </tr>
+      <tr class="border-t border-cyan-700">
+        <td class="px-4 py-3 border border-cyan-700 font-semibold whitespace-nowrap">Access</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Access</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Access</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Limited connectivity</td>
+        <td class="px-4 py-3 border border-cyan-700 whitespace-nowrap">Access</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <p><code>show dtp interface f0/1</code> to see DTP mode </p>
 
 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative tobe" role="alert">

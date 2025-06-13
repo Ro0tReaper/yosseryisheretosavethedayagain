@@ -1,7 +1,203 @@
-<h3>Switch Boot Sequence</h3>
-<ol>
-  <li>Power-On Self-Test (POST)</li>
-  <li>Boot Loader Initialization</li>
-  <li>Flash File System Setup</li>
-  <li>Load the IOS</li>
-</ol>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Legacy Inter-VLAN Routing</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800 max-w-full overflow-x-auto">
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Early Method:</strong> Router with multiple physical interfaces connected to VLAN switch ports.</li>
+    <li><strong class="text-cyan-400">Gateway Role:</strong> Router interfaces served as default gateways for VLAN subnets.</li>
+    <li><strong class="text-cyan-400">Scalability:</strong> Limited by number of router physical interfaces.</li>
+    <li><strong class="text-cyan-400">Status:</strong> Obsolete method, shown for explanation only.</li>
+  </ul>
+</div>
+
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Router-on-a-Stick Inter-VLAN Routing</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800 max-w-full overflow-x-auto">
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Single Physical Interface:</strong> Configured as an 802.1Q trunk with multiple subinterfaces.</li>
+    <li><strong class="text-cyan-400">Subinterfaces:</strong> Virtual interfaces with unique IPs and VLAN assignments.</li>
+    <li><strong class="text-cyan-400">Routing Process:</strong> VLAN-tagged traffic routed via subinterfaces based on destination IP.</li>
+    <li><strong class="text-cyan-400">Outgoing Traffic:</strong> Frames VLAN-tagged and sent out physical interface.</li>
+    <li><strong class="text-cyan-400">Scalability:</strong> Supports up to ~50 VLANs.</li>
+    <li>
+      <strong class="text-cyan-400">Complete router-on-a-stick steps:</strong>
+      <strong class="text-cyan-400">Step1:</strong> SWITCH CONFIG: Create and name the VLANs & configure Management interface. 
+      <div class="bg-black text-green-400 p-3 rounded text-sm mb-6 overflow-x-auto whitespace-pre-wrap">
+<pre>
+Switch(config)# vlan 2
+Switch(config-vlan)# name pikes
+Switch(config)# vlan 99
+Switch(config-vlan)# name Managa
+Switch(config-vlan)# interface vlan 99
+Switch(config-if)# ip address ...
+Switch(config)# ip default-gateway ...
+... Config access and switch and so on ...
+//repeat
+</pre>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Inter-VLAN Routing on a Layer 3 Switch</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800 max-w-full overflow-x-auto">
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">SVI (Switched Virtual Interface):</strong> Virtual interface providing Layer 3 routing per VLAN.</li>
+    <li><strong class="text-cyan-400">Performance:</strong> Hardware switched/routed — faster than router-on-a-stick.</li>
+    <li><strong class="text-cyan-400">Network Design:</strong> No need for external router links; supports EtherChannel trunks.</li>
+    <li><strong class="text-cyan-400">Latency:</strong> Lower latency as routing stays inside the switch.</li>
+    <li><strong class="text-cyan-400">Usage:</strong> Common in campus LANs.</li>
+    <li><strong class="text-cyan-400">Cost:</strong> More expensive than routers.</li>
+    <li><strong class="text-cyan-400">Scalability:</strong> Router-on-a-stick suits small/medium orgs; Layer 3 switches needed for large enterprises.</li>
+    <li><strong class="text-cyan-400">Location:</strong> Common in enterprise distribution layer wiring closets.</li>
+    <li><strong class="text-cyan-400">Capabilities:</strong> Route between VLANs using multiple SVIs; convert Layer 2 ports to routed ports.</li>
+    <li><strong class="text-cyan-400">Configuration:</strong> SVIs created using <code>interface vlan vlan-id</code> command.</li>
+  </ul>
+</div>
+
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">R1 Subinterface Configuration</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800 max-w-full overflow-x-auto">
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Subinterface Creation:</strong> Use <code>interface interface_id.subinterface_id</code>, matching subinterface number to VLAN ID.</li>
+    <li><strong class="text-cyan-400">Encapsulation:</strong> Configure with <code>encapsulation dot1q vlan_id [native]</code> for 802.1Q tagging; <code>native</code> sets native VLAN if not VLAN 1.</li>
+    <li><strong class="text-cyan-400">IP Address:</strong> Assign unique subnet IP with <code>ip address ip-address subnet-mask</code>, serving as default gateway for VLAN.</li>
+    <li><strong class="text-cyan-400">Repeat:</strong> Create subinterfaces for all VLANs to route.</li>
+    <li><strong class="text-cyan-400">Enable Interface:</strong> Use <code>no shutdown</code> on physical interface to activate all subinterfaces.</li>
+  </ul>
+  <div class="bg-black text-green-400 p-3 rounded text-sm mb-6 overflow-x-auto whitespace-pre-wrap">
+<pre>
+Router(config)# interface gig0/1.10
+Router(config-subif)# encapsulation dot1q 10
+Router(config-subif)# ip address 192.168.10.1 255.255.255.0
+
+Router(config)# interface gig0/1.20
+Router(config-subif)# encapsulation dot1q 20 native
+Router(config-subif)# ip address 192.168.20.1 255.255.255.0
+
+Router(config)# interface gig0/1
+Router(config-if)# no shutdown
+</pre>
+  </div>
+</div>
+
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Layer 3 Switch Configuration</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800 max-w-full overflow-x-auto">
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Step 1:</strong> Create VLANs (e.g., VLAN 10 and 20).</li>
+    <li><strong class="text-cyan-400">Step 2:</strong> Create SVI interfaces with IP addresses as default gateways.</li>
+    <li><strong class="text-cyan-400">Step 3:</strong> Assign access ports to the appropriate VLANs.</li>
+    <li><strong class="text-cyan-400">Step 4:</strong> Enable IP routing using <code>ip routing</code> command.</li>
+  </ul>
+</div>
+
+<h3 class="text-xl font-bold text-cyan-400 mb-3">Layer 3 Switch Inter-VLAN Routing Verification</h3>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-4 rounded-lg border border-cyan-700 mb-6 max-w-full overflow-x-auto">
+  <ul class="list-disc pl-6 space-y-2">
+    <li>Check host IP configuration using <code>ipconfig</code>.</li>
+    <li>Ping between hosts in different VLANs to verify connectivity.</li>
+    <li>Successful ping confirms inter-VLAN routing is functioning.</li>
+  </ul>
+</div>
+
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Routing on a Layer 3 Switch</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800 max-w-full overflow-x-auto">
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Routing:</strong> VLANs must be advertised via static or dynamic routing to be reachable by other Layer 3 devices.</li>
+    <li><strong class="text-cyan-400">Routed Port:</strong> Created by disabling <code>switchport</code> on a Layer 2 port using <code>no switchport</code>.</li>
+    <li><strong class="text-cyan-400">IPv4 Config:</strong> Routed port assigned IPv4 to connect to routers or Layer 3 switches.</li>
+  </ul>
+</div>
+
+<h3 class="text-xl font-bold text-cyan-400 mb-3">Routing Configuration on Layer 3 Switch</h3>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-4 rounded-lg border border-cyan-700 mb-6 max-w-full overflow-x-auto">
+  <ol class="list-decimal pl-6 space-y-2">
+    <li>Configure routed port: <code>no switchport</code>, assign IP, enable port.</li>
+    <li>Enable routing with <code>ip routing</code> command.</li>
+    <li>Configure routing protocol (e.g., Single-Area OSPFv2).</li>
+    <li>Verify routing table using <code>show ip route</code>.</li>
+    <li>Verify connectivity with <code>ping</code>.</li>
+  </ol>
+</div>
+
+<h3 class="text-xl font-bold text-cyan-400 mb-3 text-center">Common Issues, Fixes, and Verification</h3>
+<div class="overflow-x-auto">
+  <table class="w-full min-w-[600px] text-sm text-gray-200 border border-cyan-800 mb-6 table-auto">
+    <thead class="bg-cyan-800 text-white">
+      <tr>
+        <th class="px-4 py-3 border border-cyan-700 text-left">Issue Type</th>
+        <th class="px-4 py-3 border border-cyan-700 text-left">How to Fix</th>
+        <th class="px-4 py-3 border border-cyan-700 text-left">How to Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-t border-cyan-700 align-top">
+        <td class="px-4 py-3 border border-cyan-700 font-semibold whitespace-nowrap">Missing VLANs</td>
+        <td class="px-4 py-3 border border-cyan-700">
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Create (or re-create) the VLAN if it does not exist.</li>
+            <li>Ensure host port is assigned to the correct VLAN.</li>
+          </ul>
+        </td>
+        <td class="px-4 py-3 border border-cyan-700">
+          <ul class="list-disc pl-5 space-y-1">
+            <li><code>show vlan [brief]</code></li>
+            <li><code>show interfaces switchport</code></li>
+            <li><code>ping</code></li>
+          </ul>
+        </td>
+      </tr>
+      <tr class="border-t border-cyan-700 align-top">
+        <td class="px-4 py-3 border border-cyan-700 font-semibold whitespace-nowrap">Switch Trunk Port Issues</td>
+        <td class="px-4 py-3 border border-cyan-700">
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Ensure trunks are configured correctly.</li>
+            <li>Ensure port is a trunk port and enabled.</li>
+          </ul>
+        </td>
+        <td class="px-4 py-3 border border-cyan-700">
+          <ul class="list-disc pl-5 space-y-1">
+            <li><code>show interface trunk</code></li>
+            <li><code>show running-config</code></li>
+          </ul>
+        </td>
+      </tr>
+      <tr class="border-t border-cyan-700 align-top">
+        <td class="px-4 py-3 border border-cyan-700 font-semibold whitespace-nowrap">Switch Access Port Issues</td>
+        <td class="px-4 py-3 border border-cyan-700">
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Assign correct VLAN to access port.</li>
+            <li>Ensure port is an access port and enabled.</li>
+            <li>Host is incorrectly configured in the wrong subnet.</li>
+          </ul>
+        </td>
+        <td class="px-4 py-3 border border-cyan-700">
+          <ul class="list-disc pl-5 space-y-1">
+            <li><code>show interfaces switchport</code></li>
+            <li><code>show running-config interface</code></li>
+            <li><code>ipconfig</code></li>
+          </ul>
+        </td>
+      </tr>
+      <tr class="border-t border-cyan-700 align-top">
+        <td class="px-4 py-3 border border-cyan-700 font-semibold whitespace-nowrap">Router Configuration Issues</td>
+        <td class="px-4 py-3 border border-cyan-700">
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Router subinterface IPv4 address is incorrectly configured.</li>
+            <li>Router subinterface is assigned to the VLAN ID.</li>
+          </ul>
+        </td>
+        <td class="px-4 py-3 border border-cyan-700">
+          <ul class="list-disc pl-5 space-y-1">
+            <li><code>show ip interface brief</code></li>
+            <li><code>show interfaces</code></li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
