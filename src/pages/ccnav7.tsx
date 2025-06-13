@@ -11,9 +11,10 @@ interface Module {
 
 interface Props {
   modules: Module[]
+  commandsHtml: string
 }
 
-export default function CCNAV7({ modules }: Props) {
+export default function CCNAV7({ modules, commandsHtml }: Props) {
   return (
     <div className="p-6 bg-gray-900 min-h-screen text-white scroll-smooth">
       <h1 className="text-3xl font-bold text-cyan-400 mb-4">CCNAv7 Course Summary</h1>
@@ -27,6 +28,11 @@ export default function CCNAV7({ modules }: Props) {
             </a>
           </li>
         ))}
+        <li>
+          <a href="#commands" className="hover:underline">
+            Commands
+          </a>
+        </li>
       </ul>
 
       <section className="space-y-12">
@@ -39,6 +45,15 @@ export default function CCNAV7({ modules }: Props) {
             />
           </section>
         ))}
+
+        {/* Commands Section */}
+        <section id="commands" className="bg-gray-800 p-4 rounded">
+          <h2 className="text-xl font-semibold text-cyan-300 mb-2">Commands</h2>
+          <div
+            className="text-gray-200 space-y-2"
+            dangerouslySetInnerHTML={{ __html: commandsHtml }}
+          />
+        </section>
       </section>
 
       <div className="mt-10">
@@ -75,9 +90,12 @@ export const getStaticProps: GetStaticProps = async () => {
     return { ...mod, summary }
   })
 
+  const commandsHtml = getTextFileContent('commands.html')
+
   return {
     props: {
-      modules
+      modules,
+      commandsHtml,
     }
   }
 }
