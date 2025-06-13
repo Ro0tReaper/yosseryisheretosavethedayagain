@@ -23,22 +23,22 @@ export default function Home() {
       setError('🕵️ Please enter a name.')
       return
     }
-
-    if (whitelist.includes(normalized)) {
+//    REMOVE LOGIN LOGIC, ALLOW EVERY ONE TEMPORARY
+    if (whitelist.includes(normalized) || normalized) {
       router.push({
         pathname: '/dashboard',
         query: { user: name }
       })
-    } else if (['ahmed', 'mohamed', 'omar'].includes(normalized)) {
-      if (name.split(' ').length === 2 && !whitelist.includes(normalized)) {
-        setError('🚫 Access denied. You have no place here!')
-      } else {
-        setError('⚠ First and Last name please ...')
-      }
-    } else {
-      setError('🚫 Access denied. You have no place here!')
-    }
-  }
+    // } else if (['ahmed', 'mohamed', 'omar'].includes(normalized)) {
+    //   if (name.split(' ').length === 2 && !whitelist.includes(normalized)) {
+    //     setError('🚫 Access denied. You have no place here!')
+    //   } else {
+    //     setError('⚠ First and Last name please ...')
+    //   }
+    // // } else {
+    //   setError('🚫 Access denied. You have no place here!')
+    // }
+  }}
 
   return (
     <main className="min-h-screen flex flex-col justify-center items-center bg-gray-900 text-white px-4 py-8">
