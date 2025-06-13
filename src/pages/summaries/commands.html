@@ -217,7 +217,10 @@ S1(config)# ip arp inspection vlan 10</pre>
   <h3 class="text-xl font-semibold text-cyan-400 mb-3">BPDU Guard & PortFast</h3>
   <pre class="bg-black text-green-400 p-3 rounded text-sm overflow-x-auto">
 S1(config-if)# spanning-tree portfast
-S1(config-if)# spanning-tree bpduguard enable</pre>
+S1(config)# spanning-tree portfast default
+S1(config-if)# spanning-tree bpduguard enable
+S1(config)# spanning-tree bpduguard default
+</pre>
 </div>
 
 <!-- IPv4 Static Routing -->

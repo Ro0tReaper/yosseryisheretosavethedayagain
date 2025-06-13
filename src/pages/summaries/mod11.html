@@ -1,1 +1,192 @@
-underconstruction
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Port Security Fundamentals</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Port Security Basics</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Core Function:</strong> Limits MAC addresses per port to prevent table overflow attacks</li>
+    <li><strong class="text-cyan-400">Implementation Requirements:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Must be configured on access ports or manually configured trunk ports</li>
+        <li>Cannot function on dynamic auto/desirable ports</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Unused Port Protection:</strong> Disabling unused ports is a fundamental security practice</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">MAC Address Learning Methods</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Static Configuration:</strong> Administrator manually defines allowed MAC addresses</li>
+    <li><strong class="text-cyan-400">Dynamic Learning:</strong> Switch automatically learns first connected device's MAC</li>
+    <li><strong class="text-cyan-400">Sticky Learning:</strong> Dynamically learned MACs are saved to running config</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Security Violation Handling</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Shutdown Mode (Default):</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Immediately disables the port</li>
+        <li>Requires manual reactivation</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Restrict Mode:</strong> Drops unauthorized traffic but keeps port active</li>
+    <li><strong class="text-cyan-400">Protect Mode:</strong> Silently drops unauthorized frames</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">Advanced Configuration</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li><strong class="text-cyan-400">Aging Mechanisms:</strong>
+      <ul class="list-circle pl-6 mt-1 space-y-1">
+        <li>Absolute: Removes MACs after fixed time</li>
+        <li>Inactivity: Removes unused MACs</li>
+      </ul>
+    </li>
+    <li><strong class="text-cyan-400">Verification:</strong> Specialized show commands reveal current security status</li>
+  </ul>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Implementation Note:</strong> Always verify port security configurations after implementation and monitor violation counters for security events.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">Layer 2 Attack Mitigation Techniques</h2>
+
+<!-- VLAN Attack Mitigation -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">VLAN Attack Prevention</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Attack Methods:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>DTP spoofing to force trunk mode</li>
+        <li>Rogue switch trunk connections</li>
+        <li>Double-tagging VLAN encapsulation</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Defense Strategy:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Disable DTP on all access ports</li>
+        <li>Manually configure trunk links</li>
+        <li>Change native VLAN from default</li>
+        <li>Disable unused switch ports</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- DHCP Attack Mitigation -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">DHCP Attack Protection</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Threat Types:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>DHCP starvation (DoS)</li>
+        <li>Rogue DHCP servers</li>
+        <li>Man-in-the-middle spoofing</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">DHCP Snooping:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Creates binding table of MAC-IP pairs</li>
+        <li>Differentiates trusted/untrusted ports</li>
+        <li>Rate-limits using <code>ip dhcp snooping limit rate [value]</code> DHCP requests(on untrusted/access ports)</li>
+        <li>Validates DHCP message integrity</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ARP Attack Mitigation -->
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">ARP Spoofing Defense</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Attack Vectors:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Gratuitous ARP replies</li>
+        <li>IP/MAC binding spoofing</li>
+        <li>Gateway impersonation</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Dynamic ARP Inspection:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Requires DHCP snooping</li>
+        <li>Validates packet headers against ARP payload</li>
+        <li>Drops malformed ARP messages</li>
+        <li>Uses trusted port designation  <br> <code class="bg-black text-green-400 px-1 rounded">(on a trunk)ip arp inspection trust <br> (on a trunk)ip dhcp snooping trust </code></li>
+        <li>Optional MAC/IP validation checks <br> <code class="bg-black text-green-400 px-1 rounded">ip arp inspection validate {[src-mac] [dst-mac] [ip]}</code></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Implementation Note:</strong> These mitigation techniques work best when implemented together as part of a comprehensive Layer 2 security policy.</p>
+</div>
+<h2 class="text-2xl font-bold text-cyan-500 mb-4">STP Attack Mitigation</h2>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">STP Vulnerability Overview</h3>
+  <ul class="list-disc pl-6 space-y-2">
+    <li>Attackers can manipulate STP by spoofing root bridge BPDUs</li>
+    <li>Results in unauthorized topology changes and traffic interception</li>
+    <li>Primary defense mechanisms: PortFast and BPDU Guard</li>
+  </ul>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">PortFast Protection</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Functionality:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Bypasses normal STP states on access ports</li>
+        <li>Immediately transitions to forwarding state</li>
+        <li>Reduces attack surface during convergence</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Implementation:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Applied only to end-user access ports</li>
+        <li>Can be enabled per-interface or globally</li>
+        <li>Verification requires specific show commands</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bg-gray-800 bg-opacity-50 text-gray-200 p-5 rounded-lg mb-6 border border-cyan-800">
+  <h3 class="text-xl font-semibold text-cyan-400 mb-3">BPDU Guard Security</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Protection Mechanism:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Detects unauthorized BPDU transmissions</li>
+        <li>Immediately disables violating ports</li>
+        <li>Prevents rogue switch connections</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-medium text-cyan-300 mb-2">Deployment Guidelines:</h4>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Enabled on all access ports</li>
+        <li>Works with PortFast configuration</li>
+        <li>Ports enter error-disabled state on violation</li>
+        <li>Manual or automatic recovery options</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bg-cyan-900 bg-opacity-30 text-cyan-100 p-3 rounded-lg border border-cyan-700 mb-6">
+  <p><strong>Security Best Practice:</strong> Always combine PortFast and BPDU Guard on access ports for complete STP attack protection. Refer to command section for specific configuration syntax and verification examples.</p>
+</div>
