@@ -17,7 +17,6 @@ export default function Home() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
     const normalized = name.trim().toLowerCase()
 
     if (!normalized) {
@@ -42,21 +41,21 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col items-center justify-between min-h-screen bg-gray-900 text-white p-6">
+    <main className="min-h-screen flex flex-col justify-center items-center bg-gray-900 text-white px-4 py-8">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="flex flex-col items-center"
+        className="w-full max-w-md space-y-6 text-center"
       >
-        <h1 className="text-4xl font-extrabold text-cyan-400 mb-4">🔍 Cyber Sleuth Portal</h1>
-        <p className="mb-6 text-center text-gray-300">Enter your name to check if I like you or not 🙄...</p>
+        <h1 className="text-4xl font-extrabold text-cyan-400">🔍 Cyber Sleuth Portal</h1>
+        <p className="text-gray-300 text-base">Enter your name to check if I like you or not 🙄...</p>
 
-        <form onSubmit={handleSubmit} className="flex flex-col items-center w-full max-w-sm">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
             placeholder="Your Name goes here"
-            className="px-4 py-2 w-full rounded border border-cyan-400 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 mb-4"
+            className="w-full px-4 py-3 rounded border border-cyan-400 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
             value={name}
             onChange={(e) => {
               setName(e.target.value)
@@ -65,7 +64,7 @@ export default function Home() {
           />
           <button
             type="submit"
-            className="px-6 py-2 bg-cyan-500 text-black font-bold rounded hover:bg-cyan-400 transition w-full"
+            className="w-full px-6 py-3 bg-cyan-500 text-black font-bold rounded hover:bg-cyan-400 transition"
           >
             Analyze 🔍
           </button>
@@ -73,7 +72,7 @@ export default function Home() {
 
         {error && (
           <motion.p
-            className="mt-4 text-red-400 font-mono"
+            className="text-red-400 font-mono"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
@@ -82,12 +81,12 @@ export default function Home() {
         )}
       </motion.div>
 
-      {/* Legal Section */}
+      {/* Legal Footer */}
       <motion.footer
-        className="mt-20 text-sm text-gray-500 text-center max-w-md"
+        className="mt-12 text-sm text-gray-500 text-center max-w-md"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.6 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
       >
         <p>
           &copy; 2025 <span className="text-white font-semibold">Mohamed Yossery</span>. All rights reserved.
